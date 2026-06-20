@@ -1468,17 +1468,16 @@ with col4:
 
     )
 
-if 'Sector' not in portfolio.columns:
-
-
-portfolio['Sector']='Others'
-
 
 
 ###################################################
 # Sector Allocation
 ###################################################
 
+if 'Sector' not in portfolio.columns:
+
+
+portfolio['Sector']='Others'
 if 'Sector' in portfolio.columns:
 
 
