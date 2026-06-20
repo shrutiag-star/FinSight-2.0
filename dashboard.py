@@ -534,20 +534,20 @@ rename = {
 
 
 
-    portfolio.rename(
+portfolio.rename(
 
 
-        columns=rename,
+    columns=rename,
 
 
-        inplace=True
+    inplace=True
 
 
     )
 
 
 
-    required={
+required={
 
 
 'Stock',
@@ -560,7 +560,7 @@ rename = {
 
 
 
-    if not required.issubset(
+if not required.issubset(
 
 
 portfolio.columns
@@ -569,7 +569,7 @@ portfolio.columns
 ):
 
 
-        st.error(
+st.error(
 
 
 "CSV must contain Stock and Quantity"
@@ -578,7 +578,7 @@ portfolio.columns
 )
 
 
-        st.stop()
+st.stop()
 
 
 
