@@ -7,6 +7,7 @@ from datetime import datetime
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+from streamlit.components.v1 import html
 
 from streamlit_autorefresh import st_autorefresh
 from modules.yahoo_module import get_data
@@ -728,6 +729,109 @@ with col2:
         use_container_width=True
 
     )
+
+
+
+####################################################
+# TradingView Live Chart
+####################################################
+
+st.subheader(
+
+    "Live TradingView Chart"
+
+)
+
+stock = st.selectbox(
+
+    "Choose Stock",
+
+    portfolio['Stock']
+
+)
+
+symbol = f"NSE:{stock}"
+
+
+html(
+
+f"""
+
+<div class="tradingview-widget-container">
+
+<div id="tradingview"></div>
+
+
+<script src="https://s3.tradingview.com/tv.js"></script>
+
+
+<script>
+
+new TradingView.widget(
+
+{{
+
+"width":"100%",
+
+"height":600,
+
+"symbol":"{symbol}",
+
+"interval":"D",
+
+"timezone":"Asia/Kolkata",
+
+"theme":"dark",
+
+"style":"1",
+
+"locale":"en",
+
+"toolbar_bg":"#111111",
+
+"enable_publishing":false,
+
+"allow_symbol_change":true,
+
+"container_id":"tradingview"
+
+}}
+
+);
+
+</script>
+
+</div>
+
+""",
+
+height=650
+
+)
+
+###################################################
+# Price Comparison
+###################################################
+
+st.subheader(
+
+    "Price Comparison"
+
+)
+
+fig = px.bar(
+
+    portfolio,
+
+    x='Stock',
+
+    y='Price',
+
+    color='Stock',
+
+    text='Price'
+
+)
 
 
 
