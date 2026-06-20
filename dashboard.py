@@ -1279,69 +1279,103 @@ with col2:
 # TradingView Live Chart
 ####################################################
 
+from streamlit.components.v1 import html
+
+
 st.subheader(
 
-"Live TradingView Chart"
+    "📈 Live TradingView Chart"
 
 )
 
 
+stock_tv = st.selectbox(
 
-stock_tv=st.selectbox(
+    "Choose Stock",
 
-"Choose Stock",
+    portfolio['Stock'].tolist(),
 
-
-portfolio['Stock'],
-
-key='tv'
+    key="tv"
 
 )
 
 
+symbol = f"NSE:{stock_tv}"
 
-symbol=f"NSE:{stock_tv}"
 
+tradingview_widget = f"""
+
+<div class="tradingview-widget-container">
+
+<div id="tradingview_chart"></div>
+
+<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+
+<script type="text/javascript">
+
+new TradingView.widget(
+
+{{
+
+"width":"100%",
+
+"height":750,
+
+"symbol":"{symbol}",
+
+"interval":"D",
+
+"timezone":"Asia/Kolkata",
+
+"theme":"dark",
+
+"style":"1",
+
+"locale":"en",
+
+"toolbar_bg":"#1f2937",
+
+"enable_publishing":false,
+
+"allow_symbol_change":false,
+
+"save_image":true,
+
+"withdateranges":true,
+
+"hide_side_toolbar":false,
+
+"studies":[
+
+"RSI@tv-basicstudies",
+
+"MACD@tv-basicstudies",
+
+"MASimple@tv-basicstudies"
+
+],
+
+"container_id":"tradingview_chart"
+
+}}
+
+);
+
+</script>
+
+</div>
+
+"""
 
 
 html(
 
-f"""
+    tradingview_widget,
 
-
-<iframe
-
-
-src="https://s.tradingview.com/widgetembed/?symbol={symbol}&interval=D"
-
-
-
-width="100%"
-
-
-
-height="850"
-
-
-
-frameborder="0"
-
-
->
-
-
-</iframe>
-
-
-""",
-
-
-
-height=850
-
-
+    height=770
 
 )
+
 
 ###################################################
 # Price Comparison
