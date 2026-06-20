@@ -1,21 +1,29 @@
-import random
+from textblob import TextBlob
 
 
-def sentiment():
-
-    sentiments = [
-
-        "Positive",
-
-        "Neutral",
-
-        "Negative"
-
-    ]
+def sentiment(text):
 
 
-    return random.choice(
+    polarity = TextBlob(
 
-        sentiments
+        text
 
-    )
+    ).sentiment.polarity
+
+
+    if polarity > 0.2:
+
+
+        return "Positive"
+
+
+    elif polarity < -0.2:
+
+
+        return "Negative"
+
+
+    else:
+
+
+        return "Neutral"
