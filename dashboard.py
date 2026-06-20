@@ -1319,118 +1319,107 @@ with col2:
 # Live Candlestick Chart
 ####################################################
 
-
-
 import yfinance as yf
 import plotly.graph_objects as go
 
-st.subheader(
-
-"📈 Live Candlestick Chart"
-
-)
+st.subheader("📈 Live Candlestick Chart")
 
 stock_tv = st.selectbox(
 
-"Choose Stock",
+    "Choose Stock",
 
-portfolio['Stock'].tolist(),
+    portfolio['Stock'].tolist(),
 
-key='tv'
+    key='tv'
+
+)
+
+hist = yf.download(
+
+    f"{stock_tv}.NS",
+
+    period="6mo"
 
 )
 
 
-try:
+
+if hist.empty:
 
 
-    hist = yf.download(
+    st.warning(
 
-        f"{stock_tv}.NS",
-
-        period='6mo'
-
-    )
-
-if not hist.empty:
-
-
-    fig = go.Figure(
-
-    ...
+        "No historical data found."
 
     )
 
-
-    st.plotly_chart(
-
-        fig,
-
-        use_container_width=True
-
-    )
 
 
 else:
 
 
-    st.warning(
 
-        "Chart unavailable"
+    fig = go.Figure()
+
+
+
+    fig.add_trace(
+
+
+        go.Candlestick(
+
+
+            x=hist.index,
+
+
+            open=hist['Open'],
+
+
+            high=hist['High'],
+
+
+            low=hist['Low'],
+
+
+            close=hist['Close']
+
+
+        )
+
 
     )
 
 
-except:
+
+    fig.update_layout(
 
 
-    hist = pd.DataFrame()
+        title=f"{stock_tv} Candlestick Chart",
 
 
-fig = go.Figure(
-
-data=[
-
-go.Candlestick(
-
-x=hist.index,
-
-open=hist['Open'],
-
-high=hist['High'],
-
-low=hist['Low'],
-
-close=hist['Close']
-
-)
-
-]
-
-)
+        template="plotly_dark",
 
 
-fig.update_layout(
-
-template="plotly_dark",
-
-height=700,
-
-title=f"{stock_tv} Candlestick Chart",
-
-xaxis_rangeslider_visible=False
-
-)
+        height=700,
 
 
-st.plotly_chart(
+        xaxis_rangeslider_visible=False
 
-fig,
 
-use_container_width=True
+    )
 
-)
 
+
+    st.plotly_chart(
+
+
+        fig,
+
+
+        use_container_width=True
+
+
+    )
 ###################################################
 # Price Comparison
 ###################################################
