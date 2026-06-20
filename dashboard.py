@@ -504,13 +504,13 @@ portfolio['Quantity']
 )
 
 
-    portfolio.columns = [
+portfolio.columns = [
 
 
-        x.strip()
+    x.strip()
 
 
-        for x in portfolio.columns
+    for x in portfolio.columns
 
 
     ]
