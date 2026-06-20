@@ -122,6 +122,95 @@ st.header(
 
 )
 
+if risk=="Low":
+
+
+    suggested={
+
+
+        'HDFCBANK':40,
+
+        'TCS':30,
+
+        'ITC':20,
+
+        'GOLDBEES':10
+
+
+    }
+
+elif risk=="Medium":
+
+
+    suggested={
+
+
+        'RELIANCE':30,
+
+        'TCS':30,
+
+        'BAJFINANCE':20,
+
+        'NIFTYBEES':20
+
+
+    }
+
+
+
+else:
+
+
+    suggested={
+
+
+        'RELIANCE':25,
+
+        'DIXON':25,
+
+        'TATAMOTORS':25,
+
+        'ZOMATO':25
+
+
+    }
+
+
+
+
+invest=pd.DataFrame(
+
+
+{
+
+'Stock':suggested.keys(),
+
+'Allocation %':suggested.values()
+
+}
+
+
+)
+
+
+
+
+invest['Amount']=invest['Allocation %']*capital/100
+
+
+
+st.dataframe(
+
+
+invest,
+
+
+use_container_width=True
+
+
+)
+
+
 
 
 st.header(
@@ -222,97 +311,6 @@ f"₹{round(corpus/10000000,2)} Cr"
 )
 
 
-
-
-if risk=="Low":
-
-
-    suggested={
-
-
-        'HDFCBANK':40,
-
-        'TCS':30,
-
-        'ITC':20,
-
-        'GOLDBEES':10
-
-
-    }
-
-
-
-elif risk=="Medium":
-
-
-    suggested={
-
-
-        'RELIANCE':30,
-
-        'TCS':30,
-
-        'BAJFINANCE':20,
-
-        'NIFTYBEES':20
-
-
-    }
-
-
-
-else:
-
-
-    suggested={
-
-
-        'RELIANCE':25,
-
-        'DIXON':25,
-
-        'TATAMOTORS':25,
-
-        'ZOMATO':25
-
-
-    }
-
-
-
-
-invest=pd.DataFrame(
-
-
-{
-
-'Stock':suggested.keys(),
-
-'Allocation %':suggested.values()
-
-}
-
-
-)
-
-
-
-
-invest['Amount']=invest['Allocation %']*capital/100
-
-
-
-st.dataframe(
-
-
-invest,
-
-
-use_container_width=True
-
-
-)
 
 
 
