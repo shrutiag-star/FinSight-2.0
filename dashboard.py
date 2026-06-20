@@ -449,22 +449,14 @@ f"₹{round(corpus/10000000,2)} Cr"
 
 
 ###################################################
-# Time
+# Dashboard Timestamp
 ###################################################
-
-current_time = datetime.now().currftime(
-
-    "%d-%m-%Y %H:%M:%S"
-
-)
-
 
 st.info(
 
-    f"🕒 Current Time : {current_time}"
+f"🕒 Dashboard Updated : {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}"
 
 )
-
 
 
 ###################################################
