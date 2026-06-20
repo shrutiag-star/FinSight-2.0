@@ -79,7 +79,7 @@ st.info(
 
 portfolio = pd.read_csv(
 
-    "data/portfolio.csv"
+    'portfolio.csv'
 
 )
 
