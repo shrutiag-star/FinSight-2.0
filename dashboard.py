@@ -985,13 +985,32 @@ c4.metric(
 
 
 
-largest = portfolio.loc[
+if len(portfolio)>0:
 
 
-    portfolio['Value'].idxmax()
+    largest = portfolio.loc[
 
 
-]
+        portfolio['Value'].idxmax()
+
+
+    ]
+
+
+else:
+
+
+    largest = pd.Series(
+
+        {
+
+            'Stock':'NA',
+
+            'Value':0
+
+        }
+
+    )
 
 
 
@@ -1322,13 +1341,50 @@ key='tv'
 )
 
 
-hist = yf.download(
+try:
 
-f"{stock_tv}.NS",
 
-period="6mo"
+    hist = yf.download(
 
-)
+        f"{stock_tv}.NS",
+
+        period='6mo'
+
+    )
+
+if not hist.empty:
+
+
+    fig = go.Figure(
+
+    ...
+
+    )
+
+
+    st.plotly_chart(
+
+        fig,
+
+        use_container_width=True
+
+    )
+
+
+else:
+
+
+    st.warning(
+
+        "Chart unavailable"
+
+    )
+
+
+except:
+
+
+    hist = pd.DataFrame()
 
 
 fig = go.Figure(
@@ -1876,6 +1932,25 @@ st.info(
 
 
 if info['price'] > 0:
+
+    if info['price'] <= 0:
+
+    minimum = 0
+
+    average = 0
+
+    maximum = 0
+
+    probability = 0
+
+else:
+
+
+    minimum, average, maximum, probability = monte_carlo(
+
+        info['price']
+
+    )
 
     minimum, average, maximum, probability = monte_carlo(
 
