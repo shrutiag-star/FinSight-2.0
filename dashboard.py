@@ -1906,126 +1906,49 @@ c.metric(
 # Monte Carlo Simulation
 ###################################################
 
-st.header(
-
-    "Monte Carlo Simulation"
-
-)
+try:
 
 
-st.info(
-
-"Monte Carlo Simulation predicts future stock prices by analysing thousands of possible market movements."
-
-)
+    if info['price'] > 0:
 
 
-if info['price'] > 0:
+        minimum, average, maximum, probability = monte_carlo(
 
-    minimum, average, maximum, probability = monte_carlo(
+            info['price']
 
-        info['price']
+        )
 
-    )
 
-else:
+    else:
+
+
+        minimum = 0
+
+
+        average = 0
+
+
+        maximum = 0
+
+
+        probability = 0
+
+
+
+except Exception:
+
+
 
     minimum = 0
+
 
     average = 0
 
+
     maximum = 0
 
+
     probability = 0
-
-
-    minimum, average, maximum, probability = monte_carlo(
-
-        info['price']
-
-    )
-
-    minimum, average, maximum, probability = monte_carlo(
-
-        info['price']
-
-    )
-
-else:
-
-    minimum = 0
-    average = 0
-    maximum = 0
-    probability = 0
-
-
-mc = pd.DataFrame(
-
-    {
-
-        'Scenario':[
-
-            'Minimum',
-
-            'Average',
-
-            'Maximum'
-
-        ],
-
-
-        'Price':[
-
-            minimum,
-
-            average,
-
-            maximum
-
-        ]
-
-    }
-
-)
-
-
-fig_mc = px.bar(
-
-    mc,
-
-    x='Scenario',
-
-    y='Price',
-
-    color='Scenario',
-
-    text='Price'
-
-)
-
-
-fig_mc.update_traces(
-
-    textposition='outside'
-
-)
-
-
-st.plotly_chart(
-
-    fig_mc,
-
-    use_container_width=True
-
-)
-
-
-st.success(
-
-    f"Probability of Gain : {round(probability,2)} %"
-
-)
-
 
 
 ###################################################
