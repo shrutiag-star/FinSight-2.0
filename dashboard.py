@@ -471,14 +471,17 @@ st.info(
 # Read Portfolio
 ###################################################
 
+###################################################
+# Upload Portfolio
+###################################################
+
 uploaded = st.file_uploader(
 
-"Upload Portfolio",
+    "Upload Portfolio",
 
-type=['csv']
+    type=['csv']
 
 )
-
 
 
 if uploaded:
@@ -490,99 +493,87 @@ if uploaded:
 
     )
 
-    portfolio['Stock']=portfolio['Stock'].astype(
 
-str
+    portfolio.columns = [
 
-)
+        x.strip()
 
-
-portfolio['Quantity']=pd.to_numeric(
-
-portfolio['Quantity']
-
-)
-
-
-portfolio.columns = [
-
-
-    x.strip()
-
-
-    for x in portfolio.columns
-
+        for x in portfolio.columns
 
     ]
 
 
+    rename = {
 
-rename = {
+        'Company': 'Stock',
 
+        'Shares': 'Quantity',
 
+        'Units': 'Quantity'
 
-'Company':'Stock',
-
-
-'Shares':'Quantity',
-
-
-'Units':'Quantity'
+    }
 
 
-}
+    portfolio.rename(
 
+        columns=rename,
 
-
-portfolio.rename(
-
-
-    columns=rename,
-
-
-    inplace=True
-
+        inplace=True
 
     )
 
 
+    required = {
 
-required={
+        'Stock',
 
+        'Quantity'
 
-'Stock',
-
-
-'Quantity'
-
-
-}
+    }
 
 
+    if not required.issubset(
 
-if not required.issubset(
+        portfolio.columns
 
-
-portfolio.columns
-
-
-):
+    ):
 
 
-st.error(
+        st.error(
+
+            "CSV must contain Stock and Quantity columns"
+
+        )
 
 
-"CSV must contain Stock and Quantity"
+        st.stop()
 
 
-)
+    portfolio['Stock'] = portfolio['Stock'].astype(
+
+        str
+
+    )
 
 
-st.stop()
+    portfolio['Quantity'] = pd.to_numeric(
 
+        portfolio['Quantity'],
+
+        errors='coerce'
+
+    )
+
+
+    portfolio.dropna(
+
+        inplace=True
+
+    )
 
 
 else:
+
 
     import os
 
@@ -602,6 +593,28 @@ else:
 
     )
 
+
+    portfolio['Stock'] = portfolio['Stock'].astype(
+
+        str
+
+    )
+
+
+    portfolio['Quantity'] = pd.to_numeric(
+
+        portfolio['Quantity'],
+
+        errors='coerce'
+
+    )
+
+
+    portfolio.dropna(
+
+        inplace=True
+
+    )
 
 
 
