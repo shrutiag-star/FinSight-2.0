@@ -4,23 +4,26 @@ from textblob import TextBlob
 def sentiment(text):
 
 
-    polarity = TextBlob(
+    score = TextBlob(
 
         text
 
     ).sentiment.polarity
 
 
-    if polarity > 0.2:
+
+    if score > 0.2:
 
 
         return "Positive"
 
 
-    elif polarity < -0.2:
+
+    elif score < -0.2:
 
 
         return "Negative"
+
 
 
     else:
