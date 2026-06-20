@@ -468,10 +468,6 @@ st.info(
 
 
 ###################################################
-# Read Portfolio
-###################################################
-
-###################################################
 # Upload Portfolio
 ###################################################
 
@@ -1296,80 +1292,73 @@ with col2:
 import yfinance as yf
 import plotly.graph_objects as go
 
-
 st.subheader(
 
-    "📈 Live Candlestick Chart"
+"📈 Live Candlestick Chart"
 
 )
-
 
 stock_tv = st.selectbox(
 
-    "Choose Stock",
+"Choose Stock",
 
-    portfolio['Stock'].tolist(),
+portfolio['Stock'].tolist(),
 
-    key='tv'
-
-)
-
-
-ticker = yf.Ticker(
-
-    f"{stock_tv}.NS"
+key='tv'
 
 )
 
 
-hist = ticker.history(
+hist = yf.download(
 
-    period="6mo"
+f"{stock_tv}.NS",
+
+period="6mo"
 
 )
 
 
 fig = go.Figure(
 
-    data=[
+data=[
 
-        go.Candlestick(
+go.Candlestick(
 
-            x=hist.index,
+x=hist.index,
 
-            open=hist['Open'],
+open=hist['Open'],
 
-            high=hist['High'],
+high=hist['High'],
 
-            low=hist['Low'],
+low=hist['Low'],
 
-            close=hist['Close']
+close=hist['Close']
 
-        )
+)
 
-    ]
+]
 
 )
 
 
 fig.update_layout(
 
-    template="plotly_dark",
+template="plotly_dark",
 
-    height=700,
+height=700,
 
-    xaxis_rangeslider_visible=False,
+title=f"{stock_tv} Candlestick Chart",
 
-    title=f"{stock_tv} Candlestick Chart"
+xaxis_rangeslider_visible=False
 
 )
 
 
 st.plotly_chart(
 
-    fig,
+fig,
 
-    use_container_width=True
+use_container_width=True
 
 )
 
