@@ -452,7 +452,7 @@ f"₹{round(corpus/10000000,2)} Cr"
 # Time
 ###################################################
 
-current_time = datetime.now().strftime(
+current_time = datetime.now().currftime(
 
     "%d-%m-%Y %H:%M:%S"
 
@@ -1361,7 +1361,6 @@ fig,
 use_container_width=True
 
 )
-
 
 ###################################################
 # Price Comparison
