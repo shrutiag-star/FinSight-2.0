@@ -720,8 +720,6 @@ sentiments = []
 
 for _, row in portfolio.iterrows():
 
-
-
     data = get_data(
 
         row['Stock']
@@ -729,11 +727,9 @@ for _, row in portfolio.iterrows():
     )
 
 
-
     price = data['price']
 
     beta = data['beta']
-
 
 
     prices.append(
@@ -743,86 +739,78 @@ for _, row in portfolio.iterrows():
     )
 
 
-
     dummy_news = f"""
 
-{row['Stock']} announced quarterly results.
+    {row['Stock']} announced quarterly results.
 
-Institutional investors increased holdings.
+    Institutional investors increased holdings.
 
-Revenue growth remained stable.
+    Revenue growth remained stable.
 
-"""
-
-news = sentiment(
-
-dummy_news
-
-)
-
-sentiments.append(
-
-news
-
-)
+    """
 
 
+    news = sentiment(
 
-if beta < 1:
+        dummy_news
 
-
-
-    recommendations.append(
-
-        "BUY"
-
-        )
+    )
 
 
+    sentiments.append(
 
-    confidence.append(
+        news
 
-        80
+    )
+
+
+    if beta < 1:
+
+
+        recommendations.append(
+
+            "BUY"
 
         )
 
 
+        confidence.append(
 
-elif beta < 1.3:
-
-
-
-    recommendations.append(
-
-        "HOLD"
+            80
 
         )
 
 
-
-    confidence.append(
-
-        65
-
-        )
+    elif beta < 1.3:
 
 
+        recommendations.append(
 
-else:
-
-
-
-    recommendations.append(
-
-        "SELL"
+            "HOLD"
 
         )
 
 
+        confidence.append(
 
-    confidence.append(
+            65
 
-        40
+        )
+
+
+    else:
+
+
+        recommendations.append(
+
+            "SELL"
+
+        )
+
+
+        confidence.append(
+
+            40
 
         )
 
