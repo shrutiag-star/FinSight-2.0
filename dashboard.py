@@ -279,7 +279,19 @@ invest=pd.DataFrame(
 
 )
 
-invest['Amount']=invest['Allocation %']*capital/100
+invest['Amount']=(
+
+invest['Allocation %']
+
+*
+
+capital
+
+/
+
+100
+
+).round(0)
 
 
 st.dataframe(
