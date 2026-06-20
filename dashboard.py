@@ -11,7 +11,6 @@ import plotly.express as px
 import numpy as np
 
 from streamlit.components.v1 import html
-from streamlit_autorefresh import st_autorefresh
 
 
 ###################################################
@@ -117,13 +116,11 @@ unsafe_allow_html=True
 
 )
 
+current_time=datetime.now()
 
+st.info(
 
-st_autorefresh(
-
-    interval=60000,
-
-    key="refresh"
+f"⏱ Last Updated : {current_time.strftime('%H:%M:%S')}"
 
 )
 
