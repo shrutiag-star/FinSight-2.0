@@ -737,15 +737,27 @@ for _, row in portfolio.iterrows():
 
 
 
-    news = sentiment()
+    dummy_news = f"""
 
+{row['Stock']} announced quarterly results.
 
+Institutional investors increased holdings.
 
-    sentiments.append(
+Revenue growth remained stable.
 
-        news
+"""
 
-    )
+news = sentiment(
+
+dummy_news
+
+)
+
+sentiments.append(
+
+news
+
+)
 
 
 
@@ -1281,6 +1293,8 @@ with col2:
 # Live Candlestick Chart
 ####################################################
 
+
+
 import yfinance as yf
 import plotly.graph_objects as go
 
@@ -1466,9 +1480,42 @@ with col4:
 # Sector Allocation
 ###################################################
 
-if 'Sector' not in portfolio.columns:
+sector_map = {
 
-    portfolio['Sector'] = 'Others'
+'RELIANCE':'Energy',
+
+'TCS':'IT',
+
+'INFY':'IT',
+
+'HDFCBANK':'Banking',
+
+'ICICIBANK':'Banking',
+
+'SBIN':'Banking',
+
+'ITC':'FMCG',
+
+'DIXON':'Consumer',
+
+'BAJFINANCE':'NBFC',
+
+'NIFTYBEES':'ETF',
+
+'GOLDBEES':'ETF'
+
+}
+
+
+portfolio['Sector'] = portfolio['Stock'].map(
+
+sector_map
+
+).fillna(
+
+'Others'
+
+)
 
 
 st.header(
