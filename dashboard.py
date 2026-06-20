@@ -221,6 +221,63 @@ f"₹{round(corpus/10000000,2)} Cr"
 
 )
 
+st.metric(
+
+    "Required Corpus",
+
+    f"₹{round(corpus/10000000,2)} Cr"
+
+)
+
+
+###################################################
+# Correlation Matrix
+###################################################
+
+st.header(
+
+    "Correlation Matrix"
+
+)
+
+
+returns = pd.DataFrame()
+
+
+for stock in portfolio['Stock']:
+
+
+    returns[stock] = np.random.normal(
+
+        0,
+
+        1,
+
+        252
+
+    )
+
+
+corr = returns.corr()
+
+
+fig = px.imshow(
+
+    corr,
+
+    text_auto=".2f"
+
+)
+
+
+st.plotly_chart(
+
+    fig,
+
+    use_container_width=True
+
+)
+
 
 
 
