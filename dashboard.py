@@ -764,15 +764,6 @@ for _, row in portfolio.iterrows():
     )
 
 
-    if beta < 1:
-
-
-        recommendations.append(
-
-            "BUY"
-
-        )
-
 
         confidence.append(
 
@@ -1160,7 +1151,16 @@ score
 # Market Mood
 ###################################################
 
-avg = portfolio['Confidence'].mean()
+NIFTY RSI
+
+
+VIX
+
+
+News
+
+
+Sector breadth
 
 
 
@@ -1650,7 +1650,18 @@ for _, row in portfolio.iterrows():
 
 
 
-    if row['Confidence'] < 50:
+    ROE<15
+
+
+DebtEquity>1
+
+
+PE>sector PE
+
+
+Promoter pledge
+
+
 
 
 
