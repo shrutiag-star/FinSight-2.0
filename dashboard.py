@@ -2012,14 +2012,17 @@ watchlist = []
 for _,row in portfolio.iterrows():
 
 
-    if row['Confidence'] >= 70:
+   ROE>18
 
 
-        watchlist.append(
+Debt<0.5
 
-            row['Stock']
 
-        )
+RSI<60
+
+
+Sentiment positive
+
 
 
 if watchlist:
