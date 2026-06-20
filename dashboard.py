@@ -857,7 +857,19 @@ portfolio['Value'] = (
 
 
 portfolio['Recommendation'] = recommendations
+st.write(
 
+len(portfolio),
+
+len(prices),
+
+len(recommendations),
+
+len(confidence),
+
+len(sentiments)
+
+)
 
 portfolio['Confidence'] = confidence
 
