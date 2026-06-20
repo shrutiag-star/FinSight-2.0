@@ -516,14 +516,23 @@ portfolio.columns
 
 else:
 
-
-    portfolio=pd.read_csv(
-
-
-'portfolio.csv'
+    import os
 
 
-)
+    path = os.path.join(
+
+        os.getcwd(),
+
+        'portfolio.csv'
+
+    )
+
+
+    portfolio = pd.read_csv(
+
+        path
+
+    )
 
 
 
