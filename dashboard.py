@@ -1,5 +1,6 @@
 from modules.forecast_module import *
 from modules.sentiment_module import sentiment
+from modules.yahoo_module import get_data
 
 import time
 from datetime import datetime
@@ -8,10 +9,9 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import numpy as np
-from streamlit.components.v1 import html
 
+from streamlit.components.v1 import html
 from streamlit_autorefresh import st_autorefresh
-from modules.yahoo_module import get_data
 
 
 ###################################################
@@ -27,6 +27,96 @@ st.set_page_config(
     layout="wide"
 
 )
+
+st.markdown(
+
+"""
+
+<style>
+
+
+html,
+
+
+body,
+
+
+[class*="css"]{
+
+
+font-family:Arial;
+
+
+font-size:17px;
+
+
+}
+
+
+
+h1{
+
+
+font-size:48px;
+
+
+color:#00C8FF;
+
+
+}
+
+
+
+h2{
+
+
+font-size:34px;
+
+
+}
+
+
+
+h3{
+
+
+font-size:28px;
+
+
+}
+
+
+
+[data-testid="metric-container"]{
+
+
+background:#202632;
+
+
+padding:15px;
+
+
+border-radius:10px;
+
+
+box-shadow:0px 0px 6px black;
+
+
+}
+
+
+
+</style>
+
+
+""",
+
+
+unsafe_allow_html=True
+
+
+)
+
 
 
 st_autorefresh(
@@ -192,11 +282,7 @@ invest=pd.DataFrame(
 
 )
 
-
-
-
 invest['Amount']=invest['Allocation %']*capital/100
-
 
 
 st.dataframe(
@@ -209,7 +295,6 @@ use_container_width=True
 
 
 )
-
 
 
 
@@ -311,9 +396,6 @@ f"₹{round(corpus/10000000,2)} Cr"
 )
 
 
-
-
-
 ###################################################
 # Time
 ###################################################
@@ -339,11 +421,12 @@ st.info(
 
 uploaded = st.file_uploader(
 
-"Upload Portfolio CSV",
+"Upload Portfolio",
 
 type=['csv']
 
 )
+
 
 
 if uploaded:
@@ -356,14 +439,95 @@ if uploaded:
     )
 
 
+    portfolio.columns = [
+
+
+        x.strip()
+
+
+        for x in portfolio.columns
+
+
+    ]
+
+
+
+    rename = {
+
+
+
+'Company':'Stock',
+
+
+'Shares':'Quantity',
+
+
+'Units':'Quantity'
+
+
+}
+
+
+
+    portfolio.rename(
+
+
+        columns=rename,
+
+
+        inplace=True
+
+
+    )
+
+
+
+    required={
+
+
+'Stock',
+
+
+'Quantity'
+
+
+}
+
+
+
+    if not required.issubset(
+
+
+portfolio.columns
+
+
+):
+
+
+        st.error(
+
+
+"CSV must contain Stock and Quantity"
+
+
+)
+
+
+        st.stop()
+
+
+
 else:
 
 
-    portfolio = pd.read_csv(
+    portfolio=pd.read_csv(
 
-        'portfolio.csv'
 
-    )
+'portfolio.csv'
+
+
+)
+
 
 
 
@@ -804,11 +968,7 @@ st.plotly_chart(
 
 health = 0
 
-
-
 health += portfolio['Confidence'].mean()*0.5
-
-
 
 health += (
 
@@ -883,8 +1043,6 @@ health*0.6
 portfolio['Confidence'].mean()*0.4
 
 )
-
-
 
 score = round(
 
@@ -1069,44 +1227,41 @@ with col2:
 # TradingView Live Chart
 ####################################################
 
+from streamlit.components.v1 import html
+
+
 st.subheader(
 
     "Live TradingView Chart"
 
 )
 
+
 stock = st.selectbox(
 
     "Choose Stock",
 
-    portfolio['Stock']
+    portfolio['Stock'],
+
+    key='tv'
 
 )
+
 
 symbol = f"NSE:{stock}"
 
 
-html(
+widget = f"""
 
-f"""
-
-<div class="tradingview-widget-container">
-
-<div id="tradingview"></div>
-
+<div id="tv_chart_{stock}"></div>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
 
-
 <script>
 
-new TradingView.widget(
+new TradingView.widget({{
 
-{{
-
-"width":"100%",
-
-"height":600,
+"autosize":true,
 
 "symbol":"{symbol}",
 
@@ -1118,25 +1273,20 @@ new TradingView.widget(
 
 "style":"1",
 
-"locale":"en",
+"allow_symbol_change":false,
 
-"toolbar_bg":"#111111",
+"container_id":"tv_chart_{stock}"
 
-"enable_publishing":false,
-
-"allow_symbol_change":true,
-
-"container_id":"tradingview"
-
-}}
-
-);
+}});
 
 </script>
 
-</div>
+"""
 
-""",
+
+html(
+
+widget,
 
 height=650
 
