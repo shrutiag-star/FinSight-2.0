@@ -1276,15 +1276,16 @@ with col2:
 
 
 ####################################################
-# TradingView Live Chart
+# Live Candlestick Chart
 ####################################################
 
-from streamlit.components.v1 import html
+import yfinance as yf
+import plotly.graph_objects as go
 
 
 st.subheader(
 
-    "📈 Live TradingView Chart"
+    "📈 Live Candlestick Chart"
 
 )
 
@@ -1295,84 +1296,66 @@ stock_tv = st.selectbox(
 
     portfolio['Stock'].tolist(),
 
-    key="tv"
+    key='tv'
 
 )
 
 
-symbol = f"NSE:{stock_tv}"
+ticker = yf.Ticker(
+
+    f"{stock_tv}.NS"
+
+)
 
 
-tradingview_widget = f"""
+hist = ticker.history(
 
-<div class="tradingview-widget-container">
+    period="6mo"
 
-<div id="tradingview_chart"></div>
-
-<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-
-<script type="text/javascript">
-
-new TradingView.widget(
-
-{{
-
-"width":"100%",
-
-"height":750,
-
-"symbol":"{symbol}",
-
-"interval":"D",
-
-"timezone":"Asia/Kolkata",
-
-"theme":"dark",
-
-"style":"1",
-
-"locale":"en",
-
-"toolbar_bg":"#1f2937",
-
-"enable_publishing":false,
-
-"allow_symbol_change":false,
-
-"save_image":true,
-
-"withdateranges":true,
-
-"hide_side_toolbar":false,
-
-"studies":[
-
-"RSI@tv-basicstudies",
-
-"MACD@tv-basicstudies",
-
-"MASimple@tv-basicstudies"
-
-],
-
-"container_id":"tradingview_chart"
-
-}}
-
-);
-
-</script>
-
-</div>
-
-"""
+)
 
 
-html(
+fig = go.Figure(
 
-    tradingview_widget,
+    data=[
 
-    height=770
+        go.Candlestick(
+
+            x=hist.index,
+
+            open=hist['Open'],
+
+            high=hist['High'],
+
+            low=hist['Low'],
+
+            close=hist['Close']
+
+        )
+
+    ]
+
+)
+
+
+fig.update_layout(
+
+    template="plotly_dark",
+
+    height=700,
+
+    xaxis_rangeslider_visible=False,
+
+    title=f"{stock_tv} Candlestick Chart"
+
+)
+
+
+st.plotly_chart(
+
+    fig,
+
+    use_container_width=True
 
 )
 
