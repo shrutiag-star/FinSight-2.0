@@ -328,7 +328,21 @@ sip=st.number_input(
 
 
 
-future=sip*12*years*1.12
+r=0.12/12
+
+n=years*12
+
+
+future=sip*((1+r)**n-1)/r
+
+
+future=round(
+
+future,
+
+0
+
+)
 
 
 
@@ -392,7 +406,35 @@ expense=st.number_input(
 
 
 
-corpus=expense*12*25
+inflation=0.06
+
+
+yrs=retire-age
+
+
+
+corpus=(
+
+
+expense*12*25
+
+
+)*(
+
+
+1+inflation
+
+
+)**yrs
+
+
+corpus=round(
+
+corpus,
+
+0
+
+)
 
 
 
