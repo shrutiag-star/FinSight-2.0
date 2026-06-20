@@ -800,29 +800,29 @@ elif beta < 1.3:
 
 
 
-        confidence.append(
+    confidence.append(
 
-            65
-
-        )
-
-
-
-    else:
-
-
-
-        recommendations.append(
-
-            "SELL"
+        65
 
         )
 
 
 
-        confidence.append(
+else:
 
-            40
+
+
+    recommendations.append(
+
+        "SELL"
+
+        )
+
+
+
+    confidence.append(
+
+        40
 
         )
 
