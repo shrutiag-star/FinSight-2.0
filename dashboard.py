@@ -78,11 +78,34 @@ st.info(
 # Read Portfolio
 ###################################################
 
-portfolio = pd.read_csv(
+uploaded = st.file_uploader(
 
-    'portfolio.csv'
+"Upload Portfolio CSV",
+
+type=['csv']
 
 )
+
+
+if uploaded:
+
+
+    portfolio = pd.read_csv(
+
+        uploaded
+
+    )
+
+
+else:
+
+
+    portfolio = pd.read_csv(
+
+        'portfolio.csv'
+
+    )
+
 
 
 
