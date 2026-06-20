@@ -1478,6 +1478,8 @@ if 'Sector' not in portfolio.columns:
 
 
 portfolio['Sector']='Others'
+
+
 if 'Sector' in portfolio.columns:
 
 
