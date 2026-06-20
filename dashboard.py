@@ -123,6 +123,43 @@ st.header(
 
 
 
+st.header(
+
+"SIP Planner"
+
+)
+
+
+
+sip=st.number_input(
+
+"Monthly SIP",
+
+1000,
+
+100000,
+
+10000
+
+)
+
+
+
+future=sip*12*years*1.12
+
+
+
+st.metric(
+
+"Expected Corpus",
+
+f"₹{round(future,0)}"
+
+)
+
+
+
+
 if risk=="Low":
 
 
