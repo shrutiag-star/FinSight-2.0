@@ -768,33 +768,33 @@ news
 
 
 
-    if beta < 1:
+if beta < 1:
 
 
 
-        recommendations.append(
+    recommendations.append(
 
-            "BUY"
-
-        )
-
-
-
-        confidence.append(
-
-            80
+        "BUY"
 
         )
 
 
 
-    elif beta < 1.3:
+    confidence.append(
+
+        80
+
+        )
 
 
 
-        recommendations.append(
+elif beta < 1.3:
 
-            "HOLD"
+
+
+    recommendations.append(
+
+        "HOLD"
 
         )
 
