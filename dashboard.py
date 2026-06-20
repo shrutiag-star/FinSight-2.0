@@ -130,7 +130,6 @@ st.header(
 )
 
 
-
 sip=st.number_input(
 
 "Monthly SIP",
@@ -156,6 +155,71 @@ st.metric(
 f"₹{round(future,0)}"
 
 )
+
+
+
+st.header(
+
+"Retirement Planner"
+
+)
+
+
+
+age=st.slider(
+
+"Current Age",
+
+20,
+
+60,
+
+25
+
+)
+
+
+
+retire=st.slider(
+
+"Retirement Age",
+
+55,
+
+70,
+
+60
+
+)
+
+
+
+expense=st.number_input(
+
+"Monthly Expense",
+
+10000,
+
+500000,
+
+50000
+
+)
+
+
+
+corpus=expense*12*25
+
+
+
+st.metric(
+
+"Required Corpus",
+
+f"₹{round(corpus/10000000,2)} Cr"
+
+)
+
 
 
 
