@@ -990,46 +990,25 @@ c5.metric(
 
 st.header(
 
-    "Correlation Matrix"
-
-)
-
-returns = pd.DataFrame()
-
-
-for stock in portfolio['Stock']:
-
-
-    returns[stock] = np.random.normal(
-
-        0,
-
-        1,
-
-        252
-
-    )
-
-
-corr = returns.corr()
-
-
-fig_corr = px.imshow(
-
-    corr,
-
-    text_auto=".2f",
-
-    color_continuous_scale='RdBu'
+"Correlation Matrix"
 
 )
 
 
-st.plotly_chart(
 
-    fig_corr,
+corr=portfolio[[
 
-    use_container_width=True
+'Price',
+
+'Value'
+
+]].corr()
+
+
+
+st.dataframe(
+
+corr
 
 )
 
@@ -1300,68 +1279,67 @@ with col2:
 # TradingView Live Chart
 ####################################################
 
-from streamlit.components.v1 import html
-
-
 st.subheader(
 
-    "Live TradingView Chart"
+"Live TradingView Chart"
 
 )
 
 
-stock = st.selectbox(
 
-    "Choose Stock",
+stock_tv=st.selectbox(
 
-    portfolio['Stock'],
+"Choose Stock",
 
-    key='tv'
+
+portfolio['Stock'],
+
+key='tv'
 
 )
 
 
-symbol = f"NSE:{stock}"
 
+symbol=f"NSE:{stock_tv}"
 
-widget = f"""
-
-<div id="tv_chart_{stock}"></div>
-
-<script src="https://s3.tradingview.com/tv.js"></script>
-
-<script>
-
-new TradingView.widget({{
-
-"autosize":true,
-
-"symbol":"{symbol}",
-
-"interval":"D",
-
-"timezone":"Asia/Kolkata",
-
-"theme":"dark",
-
-"style":"1",
-
-"allow_symbol_change":false,
-
-"container_id":"tv_chart_{stock}"
-
-}});
-
-</script>
-
-"""
 
 
 html(
 
-widget,
+f"""
 
-height=650
+
+<iframe
+
+
+src="https://s.tradingview.com/widgetembed/?symbol={symbol}&interval=D"
+
+
+
+width="100%"
+
+
+
+height="600"
+
+
+
+frameborder="0"
+
+
+>
+
+
+</iframe>
+
+
+""",
+
+
+
+height=620
+
+
 
 )
 
@@ -1470,6 +1448,11 @@ with col4:
         use_container_width=True
 
     )
+
+if 'Sector' not in portfolio.columns:
+
+
+portfolio['Sector']='Others'
 
 
 
@@ -1725,11 +1708,30 @@ st.header(
 )
 
 
-info = get_data(
+info={
 
-    stock
 
-)
+'price':portfolio.loc[
+
+
+portfolio['Stock']==stock,
+
+
+'Price'
+
+
+].iloc[0],
+
+
+
+'beta':1,
+
+
+'eps':15
+
+
+}
+
 
 
 a,b,c = st.columns(
