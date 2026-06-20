@@ -750,6 +750,57 @@ c5.metric(
 
 
 ###################################################
+# Correlation Matrix
+###################################################
+
+st.header(
+
+    "Correlation Matrix"
+
+)
+
+returns = pd.DataFrame()
+
+
+for stock in portfolio['Stock']:
+
+
+    returns[stock] = np.random.normal(
+
+        0,
+
+        1,
+
+        252
+
+    )
+
+
+corr = returns.corr()
+
+
+fig_corr = px.imshow(
+
+    corr,
+
+    text_auto=".2f",
+
+    color_continuous_scale='RdBu'
+
+)
+
+
+st.plotly_chart(
+
+    fig_corr,
+
+    use_container_width=True
+
+)
+
+
+
+###################################################
 # Portfolio Health
 ###################################################
 
