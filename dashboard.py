@@ -1316,29 +1316,39 @@ with col2:
 
 
 ####################################################
-# Live Candlestick Chart
+# Candlestick Chart
 ####################################################
 
 import yfinance as yf
 import plotly.graph_objects as go
 
-st.subheader("📈 Live Candlestick Chart")
 
-stock_tv = st.selectbox(
+st.header(
 
-    "Choose Stock",
-
-    portfolio['Stock'].tolist(),
-
-    key='tv'
+"📈 Live Candlestick Chart"
 
 )
 
+
+stock_tv = st.selectbox(
+
+"Choose Stock",
+
+portfolio['Stock'].tolist(),
+
+key="tv"
+
+)
+
+
+
 hist = yf.download(
 
-    f"{stock_tv}.NS",
+f"{stock_tv}.NS",
 
-    period="6mo"
+period="6mo",
+
+auto_adjust=False
 
 )
 
@@ -1349,13 +1359,27 @@ if hist.empty:
 
     st.warning(
 
-        "No historical data found."
+    "No historical data found."
 
     )
 
 
-
 else:
+
+
+
+    if isinstance(
+
+        hist.columns,
+
+        pd.MultiIndex
+
+    ):
+
+
+
+        hist.columns = hist.columns.get_level_values(0)
+
 
 
 
@@ -1363,44 +1387,45 @@ else:
 
 
 
+
     fig.add_trace(
 
-
         go.Candlestick(
-
 
             x=hist.index,
 
 
-            open=hist['Open'],
+            open=hist["Open"],
 
 
-            high=hist['High'],
+            high=hist["High"],
 
 
-            low=hist['Low'],
+            low=hist["Low"],
 
 
-            close=hist['Close']
+            close=hist["Close"],
 
+
+            name=stock_tv
 
         )
 
-
     )
+
 
 
 
     fig.update_layout(
 
 
-        title=f"{stock_tv} Candlestick Chart",
-
-
         template="plotly_dark",
 
 
-        height=700,
+        height=650,
+
+
+        title=f"{stock_tv} Candlestick Chart",
 
 
         xaxis_rangeslider_visible=False
@@ -1420,6 +1445,7 @@ else:
 
 
     )
+
 ###################################################
 # Price Comparison
 ###################################################
