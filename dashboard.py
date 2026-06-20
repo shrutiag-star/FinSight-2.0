@@ -1938,9 +1938,16 @@ try:
     if info['price'] > 0:
 
 
-        minimum, average, maximum, probability = monte_carlo(
+        returns=hist['Close'].pct_change().dropna()
 
-            info['price']
+
+
+vol=returns.std()
+
+
+
+drift=returns.mean()
+
 
         )
 
