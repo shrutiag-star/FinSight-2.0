@@ -55,6 +55,61 @@ st.subheader(
 )
 
 
+
+###################################################
+# Investor Profile
+###################################################
+
+st.sidebar.header(
+
+    "Investor Profile"
+
+)
+
+
+capital = st.sidebar.number_input(
+
+    "Investment Amount",
+
+    10000,
+
+    10000000,
+
+    100000
+
+)
+
+
+risk = st.sidebar.selectbox(
+
+    "Risk Appetite",
+
+    [
+
+        "Low",
+
+        "Medium",
+
+        "High"
+
+    ]
+
+)
+
+
+years = st.sidebar.slider(
+
+    "Investment Horizon",
+
+    1,
+
+    30,
+
+    5
+
+)
+
+
 ###################################################
 # Time
 ###################################################
