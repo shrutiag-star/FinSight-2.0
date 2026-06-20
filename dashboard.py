@@ -9,7 +9,8 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import numpy as np
-
+import yfinance as yf
+import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
 
