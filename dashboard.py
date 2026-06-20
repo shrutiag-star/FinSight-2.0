@@ -489,6 +489,19 @@ if uploaded:
 
     )
 
+    portfolio['Stock']=portfolio['Stock'].astype(
+
+str
+
+)
+
+
+portfolio['Quantity']=pd.to_numeric(
+
+portfolio['Quantity']
+
+)
+
 
     portfolio.columns = [
 
