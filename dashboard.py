@@ -1476,41 +1476,45 @@ with col4:
 
 if 'Sector' not in portfolio.columns:
 
-
-portfolio['Sector']='Others'
-
-
-if 'Sector' in portfolio.columns:
+    portfolio['Sector'] = 'Others'
 
 
-    st.header(
+st.header(
 
-        "Sector Allocation"
+    "Sector Allocation"
 
-    )
-
-
-    sector_fig = px.pie(
-
-        portfolio,
-
-        names='Sector',
-
-        values='Value',
-
-        hole=0.4
-
-    )
+)
 
 
-    st.plotly_chart(
+sector_fig = px.pie(
 
-        sector_fig,
+    portfolio,
 
-        use_container_width=True
+    names='Sector',
 
-    )
+    values='Value',
 
+    hole=0.4
+
+)
+
+
+sector_fig.update_layout(
+
+    template='plotly_dark',
+
+    height=600
+
+)
+
+
+st.plotly_chart(
+
+    sector_fig,
+
+    use_container_width=True
+
+)
 
 
 ###################################################
