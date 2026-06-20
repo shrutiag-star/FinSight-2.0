@@ -1922,7 +1922,13 @@ st.info(
 
 if info['price'] > 0:
 
-    if info['price'] <= 0:
+    minimum, average, maximum, probability = monte_carlo(
+
+        info['price']
+
+    )
+
+else:
 
     minimum = 0
 
@@ -1931,8 +1937,6 @@ if info['price'] > 0:
     maximum = 0
 
     probability = 0
-
-else:
 
 
     minimum, average, maximum, probability = monte_carlo(
