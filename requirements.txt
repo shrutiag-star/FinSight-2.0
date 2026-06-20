@@ -5,3 +5,5 @@ plotly
 numpy
 yfinance
 openpyxl
+tqdm
+xlsxwriter
