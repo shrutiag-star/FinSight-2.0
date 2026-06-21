@@ -1107,19 +1107,6 @@ score
 # Market Mood
 ###################################################
 
-NIFTY RSI
-
-
-VIX
-
-
-News
-
-
-Sector breadth
-
-
-
 if avg > 75:
 
 
@@ -1596,30 +1583,14 @@ st.plotly_chart(
 
 st.header(
 
-    "AI Portfolio Doctor"
+"AI Portfolio Doctor"
 
 )
 
 
-
 for _, row in portfolio.iterrows():
 
-
-
-    ROE<15
-
-
-DebtEquity>1
-
-
-PE>sector PE
-
-
-Promoter pledge
-
-
-
-
+    if row['Confidence'] < 50:
 
         st.warning(
 
@@ -1628,10 +1599,7 @@ Promoter pledge
         )
 
 
-
     elif row['Confidence'] < 70:
-
-
 
         st.info(
 
@@ -1640,17 +1608,13 @@ Promoter pledge
         )
 
 
-
     else:
-
-
 
         st.success(
 
             f"{row['Stock']} looks fundamentally strong."
 
         )
-
 
 
 ###################################################
@@ -1895,61 +1859,6 @@ c.metric(
 
 
 
-###################################################
-# Monte Carlo Simulation
-###################################################
-
-try:
-
-
-    if info['price'] > 0:
-
-
-        returns=hist['Close'].pct_change().dropna()
-
-
-
-vol=returns.std()
-
-
-
-drift=returns.mean()
-
-
-        )
-
-
-    else:
-
-
-        minimum = 0
-
-
-        average = 0
-
-
-        maximum = 0
-
-
-        probability = 0
-
-
-
-except Exception:
-
-
-
-    minimum = 0
-
-
-    average = 0
-
-
-    maximum = 0
-
-
-    probability = 0
-
 
 ###################################################
 # Suggested Watchlist
@@ -1966,18 +1875,6 @@ watchlist = []
 
 
 for _,row in portfolio.iterrows():
-
-
-   ROE>18
-
-
-Debt<0.5
-
-
-RSI<60
-
-
-Sentiment positive
 
 
 
