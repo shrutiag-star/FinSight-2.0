@@ -1107,22 +1107,20 @@ score
 # Market Mood
 ###################################################
 
-if avg > 75:
+avg = portfolio['Confidence'].mean()
 
+
+if avg > 75:
 
     mood = "🟢 Bullish"
 
 
-
 elif avg > 55:
-
 
     mood = "🟡 Neutral"
 
 
-
 else:
-
 
     mood = "🔴 Bearish"
 
@@ -1135,13 +1133,11 @@ st.header(
 )
 
 
-
 st.info(
 
 mood
 
 )
-
 
 
 ###################################################
