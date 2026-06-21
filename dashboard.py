@@ -720,24 +720,12 @@ sentiments = []
 
 for _, row in portfolio.iterrows():
 
-    data = get_data(
-
-        row['Stock']
-
-    )
-
+    data = get_data(row['Stock'])
 
     price = data['price']
-
     beta = data['beta']
 
-
-    prices.append(
-
-        price
-
-    )
-
+    prices.append(price)
 
     dummy_news = f"""
 
@@ -749,62 +737,30 @@ for _, row in portfolio.iterrows():
 
     """
 
+    news = sentiment(dummy_news)
 
-    news = sentiment(
-
-        dummy_news
-
-    )
+    sentiments.append(news)
 
 
-    sentiments.append(
+    if beta < 0.8:
 
-        news
+        recommendations.append("BUY")
 
-    )
-
-
-
-        confidence.append(
-
-            80
-
-        )
+        confidence.append(80)
 
 
     elif beta < 1.3:
 
+        recommendations.append("HOLD")
 
-        recommendations.append(
-
-            "HOLD"
-
-        )
-
-
-        confidence.append(
-
-            65
-
-        )
+        confidence.append(65)
 
 
     else:
 
+        recommendations.append("SELL")
 
-        recommendations.append(
-
-            "SELL"
-
-        )
-
-
-        confidence.append(
-
-            40
-
-        )
-
+        confidence.append(40)
 
 
 analysis_end = time.time()
