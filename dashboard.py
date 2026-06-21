@@ -1991,6 +1991,7 @@ x1.metric(
 
 )
 
+probability = portfolio['Confidence'].std()
 
 x2.metric(
 
