@@ -1871,10 +1871,18 @@ st.header(
 )
 
 
-watchlist = []
+watchlist=[]
 
 
-for _,row in portfolio.iterrows():
+for _, row in portfolio.iterrows():
+
+    if row['Confidence'] > 70:
+
+        watchlist.append(
+
+            row['Stock']
+
+        )
 
 
 
@@ -1890,8 +1898,8 @@ if watchlist:
 
     )
 
-else:
 
+else:
 
 
     st.warning(
