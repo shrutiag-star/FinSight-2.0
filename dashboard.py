@@ -495,141 +495,51 @@ import os
 # User Upload
 ###################################################
 
-if uploaded is not None:
+import os
 
+if uploaded is not None:
 
     filename = uploaded.name.lower()
 
-
-    ##########################################
-    # CSV
-    ##########################################
-
     if filename.endswith('.csv'):
 
+        portfolio = pd.read_csv(uploaded)
 
-        portfolio = pd.read_csv(
+    elif filename.endswith(('.xlsx', '.xls')):
 
-            uploaded
-
-        )
-
-
-    ##########################################
-    # Excel
-    ##########################################
-
-    elif filename.endswith(
-
-            (
-
-                '.xlsx',
-
-                '.xls'
-
-            )
-
-        ):
-
-
-        portfolio = pd.read_excel(
-
-            uploaded
-
-        )
-
-
-    ##########################################
-    # TXT
-    ##########################################
+        portfolio = pd.read_excel(uploaded)
 
     elif filename.endswith('.txt'):
 
-
         portfolio = pd.read_csv(
-
             uploaded,
-
             sep='\t'
-
         )
-
-
-    ##########################################
-    # PDF
-    ##########################################
 
     elif filename.endswith('.pdf'):
 
-
-        st.warning(
-
-            "PDF parser will be added later"
-
-        )
-
+        st.warning("PDF parser will be added later")
 
         portfolio = pd.DataFrame(
-
-            columns=[
-
-                'Stock',
-
-                'Quantity'
-
-            ]
-
+            columns=['Stock', 'Quantity']
         )
-
-
-    ##########################################
-    # DOCX
-    ##########################################
 
     elif filename.endswith('.docx'):
 
-
-        st.warning(
-
-            "DOCX parser will be added later"
-
-        )
-
+        st.warning("DOCX parser will be added later")
 
         portfolio = pd.DataFrame(
-
-            columns=[
-
-                'Stock',
-
-                'Quantity'
-
-            ]
-
+            columns=['Stock', 'Quantity']
         )
-
-
-###################################################
-# Default Portfolio
-###################################################
 
 else:
 
-
     path = os.path.join(
-
         os.getcwd(),
-
         'portfolio.csv'
-
     )
 
-
-    portfolio = pd.read_csv(
-
-        path
-
-    )
+    portfolio = pd.read_csv(path)
 
 
 ###################################################
@@ -637,111 +547,66 @@ else:
 ###################################################
 
 portfolio.columns = [
-
-
-    str(
-
-        x
-
-    ).strip()
-
-
+    str(x).strip()
     for x in portfolio.columns
-
-
 ]
 
 
 rename = {
 
-
-    'Company':'Stock',
-
-    'Shares':'Quantity',
-
-    'Units':'Quantity',
-
-    'Symbol':'Stock',
-
-    'Qty':'Quantity'
-
+    'Company': 'Stock',
+    'Shares': 'Quantity',
+    'Units': 'Quantity',
+    'Symbol': 'Stock',
+    'Qty': 'Quantity'
 
 }
 
 
 portfolio.rename(
 
-
     columns=rename,
 
-
     inplace=True
-
 
 )
 
 
 required = {
 
-
     'Stock',
 
     'Quantity'
 
-
 }
 
 
-if not required.issubset(
-
-
-        portfolio.columns
-
-
-):
-
+if not required.issubset(portfolio.columns):
 
     st.error(
 
-
         "Portfolio must contain Stock and Quantity columns"
 
-
     )
-
 
     st.stop()
 
 
-
-portfolio['Stock'] = portfolio['Stock'].astype(
-
-
-    str
-
-
-)
-
+portfolio['Stock'] = portfolio['Stock'].astype(str)
 
 
 portfolio['Quantity'] = pd.to_numeric(
 
-
     portfolio['Quantity'],
 
-
     errors='coerce'
-
 
 )
 
 
-
 portfolio.dropna(
 
-
     inplace=True
-
 
 )
 
@@ -752,77 +617,17 @@ portfolio.dropna(
 
 st.subheader(
 
-
     "Portfolio Preview"
 
-
 )
-
 
 st.dataframe(
 
-
     portfolio,
-
 
     use_container_width=True
 
-
 )
-
-    portfolio.rename(
-
-    columns=rename,
-
-    inplace=True
-
-)
-
-
-else:
-
-
-    import os
-
-
-    path = os.path.join(
-
-        os.getcwd(),
-
-        'portfolio.csv'
-
-    )
-
-
-    portfolio = pd.read_csv(
-
-        path
-
-    )
-
-
-    portfolio['Stock'] = portfolio['Stock'].astype(
-
-        str
-
-    )
-
-
-    portfolio['Quantity'] = pd.to_numeric(
-
-        portfolio['Quantity'],
-
-        errors='coerce'
-
-    )
-
-
-    portfolio.dropna(
-
-        inplace=True
-
-    )
-
 
 
 
