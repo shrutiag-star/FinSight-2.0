@@ -925,53 +925,18 @@ analysis_time = round(
 
 asset_class = []
 
+
 for stock in portfolio['Stock']:
 
 
-    info = get_company_info(
-
-        stock
-
-    )
+    stock = str(stock).upper()
 
 
-    qtype = str(
+    ################################################
+    # Crypto
+    ################################################
 
-        info.get(
-
-            'QuoteType',
-
-            'EQUITY'
-
-        )
-
-    ).upper()
-
-
-
-    if qtype == "ETF":
-
-
-        asset_class.append(
-
-            "ETF"
-
-        )
-
-
-
-    elif qtype == "MUTUALFUND":
-
-
-        asset_class.append(
-
-            "Mutual Fund"
-
-        )
-
-
-
-    elif qtype == "CRYPTOCURRENCY":
+    if "-USD" in stock:
 
 
         asset_class.append(
@@ -981,8 +946,11 @@ for stock in portfolio['Stock']:
         )
 
 
+    ################################################
+    # Forex
+    ################################################
 
-    elif qtype == "CURRENCY":
+    elif "=X" in stock:
 
 
         asset_class.append(
@@ -992,8 +960,95 @@ for stock in portfolio['Stock']:
         )
 
 
+    ################################################
+    # ETF
+    ################################################
+
+    elif "BEES" in stock:
+
+
+        asset_class.append(
+
+            "ETF"
+
+        )
+
+
+    ################################################
+    # Mutual Funds
+    ################################################
+
+    elif stock in [
+
+        'PPFAS',
+
+        'PPFASFLEXI',
+
+        'SBI_SMALLCAP',
+
+        'SBI_SMALL_CAP',
+
+        'HDFC_SMALLCAP',
+
+        'ICICI_VALUE'
+
+    ]:
+
+
+
+        asset_class.append(
+
+            "Mutual Fund"
+
+        )
+
+
+    ################################################
+    # Bond
+    ################################################
+
+    elif "BOND" in stock:
+
+
+
+        asset_class.append(
+
+            "Bond"
+
+        )
+
+
+    ################################################
+    # Index
+    ################################################
+
+    elif stock in [
+
+        '^NSEI',
+
+        '^BSESN',
+
+        '^NDX',
+
+        '^GSPC'
+
+    ]:
+
+
+
+        asset_class.append(
+
+            "Index"
+
+        )
+
+
+    ################################################
+    # Default
+    ################################################
 
     else:
+
 
 
         asset_class.append(
@@ -1005,7 +1060,6 @@ for stock in portfolio['Stock']:
 
 
 portfolio['Asset Class'] = asset_class
-
 
         asset_class.append(
 
@@ -1478,7 +1532,16 @@ with col1:
 
         hole=0.4
 
-    )
+)
+
+
+fig1.update_layout(
+
+        template='plotly_dark',
+
+        height=500
+
+)
 
 
     st.plotly_chart(
