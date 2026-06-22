@@ -1089,6 +1089,10 @@ st.header(
 
 )
 
+##################################################
+# Inputs from Investor Portfolio
+##################################################
+
 confidence = round(
 
 portfolio['Confidence'].mean(),
@@ -1107,23 +1111,7 @@ portfolio['Confidence'].std(),
 )
 
 
-if 'DebtEquity' in portfolio.columns:
-
-
-    debt_equity = round(
-
-        portfolio['DebtEquity'].mean(),
-
-        2
-
-    )
-
-
-else:
-
-
-    debt_equity = 0.50
-
+debt_equity = 0.50
 
 
 
@@ -1143,7 +1131,6 @@ portfolio['Value'].sum()
 
 
 
-
 stress_loss = round(
 
 equity_weight*0.35,
@@ -1151,6 +1138,170 @@ equity_weight*0.35,
 2
 
 )
+
+
+
+buy_count = len(
+
+portfolio[
+
+portfolio['Recommendation']=="BUY"
+
+]
+
+)
+
+
+
+hold_count = len(
+
+portfolio[
+
+portfolio['Recommendation']=="HOLD"
+
+]
+
+)
+
+
+
+sell_count = len(
+
+portfolio[
+
+portfolio['Recommendation']=="SELL"
+
+]
+
+)
+
+
+
+market_sentiment = (
+
+buy_count*100
+
++
+
+hold_count*60
+
++
+
+sell_count*30
+
+)/len(portfolio)
+
+
+
+fii_sentiment = market_sentiment
+
+
+
+risk_score = risk_meter(
+
+confidence,
+
+volatility,
+
+debt_equity,
+
+stress_loss,
+
+fii_sentiment,
+
+market_sentiment
+
+)
+a,b,c,d = st.columns(
+
+4
+
+)
+
+
+
+a.metric(
+
+"Risk Score",
+
+risk_score
+
+)
+
+
+
+b.metric(
+
+"Stress Loss",
+
+f"{stress_loss}%"
+
+)
+
+
+
+c.metric(
+
+"Market Sentiment",
+
+round(
+
+market_sentiment,
+
+1
+
+)
+
+)
+
+
+
+d.metric(
+
+"Confidence",
+
+round(
+
+confidence,
+
+1
+
+)
+
+)
+
+if risk_score < 30:
+
+
+    st.success(
+
+        "🟢 Low Risk Portfolio"
+
+    )
+
+
+
+elif risk_score < 60:
+
+
+
+    st.warning(
+
+        "🟡 Moderate Risk Portfolio"
+
+    )
+
+
+
+else:
+
+
+
+    st.error(
+
+        "🔴 High Risk Portfolio"
+
+    )
 
 ###################################################
 # Portfolio Intelligence
