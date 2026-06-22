@@ -496,11 +496,116 @@ uploaded = st.file_uploader(
 if uploaded:
 
 
-    portfolio = pd.read_csv(
+    filename = uploaded.name.lower()
 
-        uploaded
 
-    )
+    ##################################################
+    # CSV
+    ##################################################
+
+    if filename.endswith('.csv'):
+
+
+        portfolio = pd.read_csv(
+
+            uploaded
+
+        )
+
+
+    ##################################################
+    # XLSX / XLS
+    ##################################################
+
+    elif filename.endswith(('.xlsx','.xls')):
+
+
+        portfolio = pd.read_excel(
+
+            uploaded
+
+        )
+
+
+    ##################################################
+    # TXT
+    ##################################################
+
+    elif filename.endswith('.txt'):
+
+
+        portfolio = pd.read_csv(
+
+            uploaded,
+
+            sep='\t'
+
+        )
+
+
+    ##################################################
+    # DOCX
+    ##################################################
+
+    elif filename.endswith('.docx'):
+
+
+        st.warning(
+
+            "DOCX parser coming in next step"
+
+        )
+
+
+
+    ##################################################
+    # PDF
+    ##################################################
+
+    elif filename.endswith('.pdf'):
+
+
+        st.warning(
+
+            "PDF parser coming in next step"
+
+        )
+
+
+
+    ##################################################
+    # Unsupported
+    ##################################################
+
+    else:
+
+
+        st.error(
+
+            "Unsupported file format"
+
+        )
+
+
+
+##################################################
+# Preview
+##################################################
+
+st.subheader(
+
+"Portfolio Preview"
+
+)
+
+
+st.dataframe(
+
+portfolio,
+
+use_container_width=True
+
+)
 
 
     portfolio.columns = [
