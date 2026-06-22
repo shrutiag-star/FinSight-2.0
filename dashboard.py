@@ -770,9 +770,13 @@ st.dataframe(
 
 )
 
-        inplace=True
+    portfolio.rename(
 
-    )
+    columns=rename,
+
+    inplace=True
+
+)
 
 
 else:
