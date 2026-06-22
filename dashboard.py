@@ -1362,7 +1362,7 @@ f"{top['Confidence']}% confidence "
 # Charts
 ###################################################
 
-col1, col2 = st.columns(2)
+col1,col2 = st.columns(2)
 
 
 with col1:
@@ -1370,7 +1370,7 @@ with col1:
 
     st.subheader(
 
-        "Portfolio Allocation"
+        "Asset Allocation"
 
     )
 
@@ -1385,16 +1385,16 @@ with col1:
 
         hole=0.4
 
-)
+    )
 
 
-fig1.update_layout(
+    fig1.update_layout(
 
         template='plotly_dark',
 
         height=500
 
-)
+    )
 
 
     st.plotly_chart(
@@ -1425,16 +1425,14 @@ with col2:
 
         y='Value',
 
-        color='Stock',
-
-        text='Value'
+        color='Stock'
 
     )
 
 
-    fig2.update_traces(
+    fig2.update_layout(
 
-        textposition='outside'
+        template='plotly_dark'
 
     )
 
