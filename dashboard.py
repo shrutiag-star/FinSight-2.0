@@ -321,80 +321,7 @@ years = st.sidebar.slider(
 
 
 
-####################################################
-# AI Portfolio Generator
-####################################################
 
-st.header(
-
-"AI Suggested Rebalancing"
-
-)
-
-
-equity_weight = (
-
-portfolio[
-
-portfolio['Asset Class']=="Equity"
-
-]['Value'].sum()
-
-/
-
-portfolio['Value'].sum()
-
-)*100
-
-
-if risk=="Low":
-
-    target = 40
-
-
-elif risk=="Medium":
-
-    target = 65
-
-
-else:
-
-    target = 85
-
-
-
-difference = equity_weight-target
-
-
-
-if difference>10:
-
-
-    st.warning(
-
-f"Reduce Equity Exposure by {round(difference,1)}%"
-
-)
-
-
-elif difference<-10:
-
-
-    st.info(
-
-f"Increase Equity Exposure by {round(abs(difference),1)}%"
-
-)
-
-
-else:
-
-
-    st.success(
-
-"Portfolio Allocation is Optimal"
-
-)
 
 invest['Amount']=(
 
@@ -1870,64 +1797,108 @@ for _, row in portfolio.iterrows():
 
 
 ###################################################
-# Portfolio Rebalancing Advisor
+# AI Suggested Rebalancing
 ###################################################
 
 st.header(
 
-    "Portfolio Rebalancing Advisor"
+"AI Suggested Rebalancing"
+
+)
+
+
+equity_weight = (
+
+portfolio[
+
+portfolio['Asset Class']=="Equity"
+
+]['Value'].sum()
+
+/
+
+portfolio['Value'].sum()
+
+)*100
+
+
+
+if risk=="Low":
+
+    target = 40
+
+
+elif risk=="Medium":
+
+    target = 65
+
+
+else:
+
+    target = 85
+
+
+
+
+difference = equity_weight-target
+
+
+
+
+c1,c2 = st.columns(2)
+
+
+
+c1.metric(
+
+"Current Equity",
+
+f"{round(equity_weight,1)} %"
 
 )
 
 
 
-largest_weight = (
+c2.metric(
 
-    largest['Value']
+"Target Equity",
 
-    /
+f"{target}%"
 
-    portfolio['Value'].sum()
-
-) * 100
+)
 
 
 
-if largest_weight > 40:
 
+if difference>10:
 
 
     st.warning(
 
-        f"{largest['Stock']} contributes "
+f"Reduce Equity Exposure by {round(difference,1)}%"
 
-        f"{round(largest_weight,2)}% "
+)
 
-        "of portfolio."
 
-    )
-
+elif difference<-10:
 
 
     st.info(
 
-        "Suggested Action : Reduce exposure "
+f"Increase Equity Exposure by {round(abs(difference),1)}%"
 
-        "and diversify holdings."
-
-    )
-
+)
 
 
 else:
 
 
-
     st.success(
 
-        "Portfolio allocation appears balanced."
+"Portfolio Allocation is Optimal"
 
-    )
+)
+
 
 
 
