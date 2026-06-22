@@ -917,50 +917,20 @@ st.success(
 
 
 ###################################################
-# Holdings
+# Portfolio Summary
 ###################################################
 
 st.header(
 
-    "Portfolio Holdings"
-
-)
-
-st.metric(
-
-    "Asset Classes Detected",
-
-    portfolio['Asset Class'].nunique()
+"📊 Executive Dashboard"
 
 )
 
 
 
-st.dataframe(
+c1,c2,c3,c4,c5,c6 = st.columns(
 
-    portfolio,
-
-    use_container_width=True
-
-)
-
-
-
-###################################################
-# Summary
-###################################################
-
-st.header(
-
-    "Portfolio Summary"
-
-)
-
-
-
-c1,c2,c3,c4,c5 = st.columns(
-
-    5
+6
 
 )
 
@@ -1054,6 +1024,46 @@ c5.metric(
     largest['Stock']
 
 )
+
+c6.metric(
+
+"FinSight Score",
+
+score
+
+)
+
+
+
+
+###################################################
+# Holdings
+###################################################
+
+st.header(
+
+    "Portfolio Holdings"
+
+)
+
+st.metric(
+
+    "Asset Classes Detected",
+
+    portfolio['Asset Class'].nunique()
+
+)
+
+
+
+st.dataframe(
+
+    portfolio,
+
+    use_container_width=True
+
+)
+
 
 
 
@@ -1174,16 +1184,6 @@ score = round(
 score,
 
 2
-
-)
-
-
-
-st.metric(
-
-"FinSight AI Score",
-
-score
 
 )
 
