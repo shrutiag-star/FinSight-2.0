@@ -238,13 +238,37 @@ unsafe_allow_html=True
 
 )
 
-current_time=datetime.now()
+###################################################
+# Top Bar
+###################################################
 
-st.info(
+left,right = st.columns(
 
-f"⏱ Last Updated : {current_time.strftime('%H:%M:%S')}"
+[3,1]
 
 )
+
+
+with left:
+
+
+    st.caption(
+
+f"Last Updated : {datetime.now().strftime('%d-%b-%Y %H:%M:%S')}"
+
+)
+
+
+
+with right:
+
+
+    st.caption(
+
+f"Running Time : {datetime.now().strftime('%H:%M:%S')}"
+
+)
+
 
 
 ###################################################
@@ -253,14 +277,14 @@ f"⏱ Last Updated : {current_time.strftime('%H:%M:%S')}"
 
 st.title(
 
-    "📈 FinSight 2.0"
+    "🧠 FinSight 4.0"
 
 )
 
 
 st.subheader(
 
-    "AI Powered Portfolio Dashboard"
+    "Investor Portfolio Intelligence Platform"
 
 )
 
@@ -333,22 +357,6 @@ years = st.sidebar.slider(
 
 # (Temporarily disabled for FinSight 4.0)
 
-###################################################
-# Dashboard Timestamp
-###################################################
-
-
-current_time = datetime.now().strftime(
-
-"%d-%m-%Y %H:%M:%S"
-
-)
-
-st.info(
-
-f"🕒 Dashboard Updated : {current_time}"
-
-)
 
 
 ###################################################
