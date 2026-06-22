@@ -10,6 +10,120 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 import yfinance as yf
+###################################################
+# Dynamic Company Information
+###################################################
+
+@st.cache_data
+def get_company_info(symbol):
+
+    try:
+
+        ticker = yf.Ticker(
+
+            f"{symbol}.NS"
+
+        )
+
+        info = ticker.info
+
+
+        return {
+
+            'Sector':
+
+            info.get(
+
+                'sector',
+
+                'Unknown'
+
+            ),
+
+
+            'Industry':
+
+            info.get(
+
+                'industry',
+
+                'Unknown'
+
+            ),
+
+
+
+            'Beta':
+
+            info.get(
+
+                'beta',
+
+                1
+
+            ),
+
+
+
+            'MarketCap':
+
+            info.get(
+
+                'marketCap',
+
+                0
+
+            ),
+
+
+
+            'Country':
+
+            info.get(
+
+                'country',
+
+                'India'
+
+            ),
+
+
+
+            'DividendYield':
+
+            info.get(
+
+                'dividendYield',
+
+                0
+
+            )
+
+        }
+
+
+    except:
+
+
+
+        return {
+
+
+            'Sector':'Unknown',
+
+            'Industry':'Unknown',
+
+            'Beta':1,
+
+            'MarketCap':0,
+
+            'Country':'India',
+
+            'DividendYield':0
+
+
+        }
+
 import plotly.graph_objects as go
 from streamlit.components.v1 import html
 
@@ -1511,83 +1625,106 @@ with col4:
 
 
 ###################################################
-# Sector Allocation
+# Dynamic Sector Allocation
 ###################################################
 
-sector_map = {
 
-'RELIANCE':'Energy',
-
-'TCS':'IT',
-
-'INFY':'IT',
-
-'HDFCBANK':'Banking',
-
-'ICICIBANK':'Banking',
-
-'SBIN':'Banking',
-
-'ITC':'FMCG',
-
-'DIXON':'Consumer',
-
-'BAJFINANCE':'NBFC',
-
-'NIFTYBEES':'ETF',
-
-'GOLDBEES':'ETF'
-
-}
+sectors=[]
 
 
-portfolio['Sector'] = portfolio['Stock'].map(
-
-sector_map
-
-).fillna(
-
-'Others'
-
-)
+industries=[]
 
 
-st.header(
-
-    "Sector Allocation"
-
-)
+betas=[]
 
 
-sector_fig = px.pie(
-
-    portfolio,
-
-    names='Sector',
-
-    values='Value',
-
-    hole=0.4
-
-)
+marketcaps=[]
 
 
-sector_fig.update_layout(
-
-    template='plotly_dark',
-
-    height=600
-
-)
+countries=[]
 
 
-st.plotly_chart(
+dividends=[]
 
-    sector_fig,
 
-    use_container_width=True
 
-)
+for stock in portfolio['Stock']:
+
+
+
+    info = get_company_info(
+
+        stock
+
+    )
+
+
+
+    sectors.append(
+
+        info['Sector']
+
+    )
+
+
+
+    industries.append(
+
+        info['Industry']
+
+    )
+
+
+
+    betas.append(
+
+        info['Beta']
+
+    )
+
+
+
+    marketcaps.append(
+
+        info['MarketCap']
+
+    )
+
+
+
+    countries.append(
+
+        info['Country']
+
+    )
+
+
+
+    dividends.append(
+
+        info['DividendYield']
+
+    )
+
+
+
+
+portfolio['Sector'] = sectors
+
+
+portfolio['Industry'] = industries
+
+
+portfolio['Beta'] = betas
+
+
+portfolio['MarketCap'] = marketcaps
+
+
+portfolio['Country'] = countries
+
+
+portfolio['Dividend Yield'] = dividends
 
 
 ###################################################
