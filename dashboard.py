@@ -1105,6 +1105,14 @@ st.header(
 
 )
 
+st.metric(
+
+    "Asset Classes Detected",
+
+    portfolio['Asset Class'].nunique()
+
+)
+
 
 
 st.dataframe(
@@ -1450,7 +1458,7 @@ with col1:
 
         portfolio,
 
-        names='Stock',
+        names='Asset Class',
 
         values='Value',
 
