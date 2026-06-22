@@ -320,37 +320,6 @@ years = st.sidebar.slider(
 )
 
 
-
-
-
-invest['Amount']=(
-
-invest['Allocation %']
-
-*
-
-capital
-
-/
-
-100
-
-).round(0)
-
-
-st.dataframe(
-
-
-invest,
-
-
-use_container_width=True
-
-
-)
-
-
-
 st.header(
 
 "SIP Planner"
