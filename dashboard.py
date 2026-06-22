@@ -30,76 +30,83 @@ def get_company_info(symbol):
 
         return {
 
-            'Sector':
+    'Sector':
 
-            info.get(
+    info.get(
 
-                'sector',
+        'sector',
 
-                'Unknown'
+        'Unknown'
 
-            ),
-
-
-            'Industry':
-
-            info.get(
-
-                'industry',
-
-                'Unknown'
-
-            ),
+    ),
 
 
+    'Industry':
 
-            'Beta':
+    info.get(
 
-            info.get(
+        'industry',
 
-                'beta',
+        'Unknown'
 
-                1
-
-            ),
-
+    ),
 
 
-            'MarketCap':
+    'Beta':
 
-            info.get(
+    info.get(
 
-                'marketCap',
+        'beta',
 
-                0
+        1
 
-            ),
-
-
-
-            'Country':
-
-            info.get(
-
-                'country',
-
-                'India'
-
-            ),
+    ),
 
 
+    'MarketCap':
 
-            'DividendYield':
+    info.get(
 
-            info.get(
+        'marketCap',
 
-                'dividendYield',
+        0
 
-                0
+    ),
 
-            )
 
-        }
+    'Country':
+
+    info.get(
+
+        'country',
+
+        'India'
+
+    ),
+
+
+    'DividendYield':
+
+    info.get(
+
+        'dividendYield',
+
+        0
+
+    ),
+
+
+    'QuoteType':
+
+    info.get(
+
+        'quoteType',
+
+        'EQUITY'
+
+    )
+
+}
 
 
     except:
@@ -918,49 +925,31 @@ analysis_time = round(
 
 asset_class = []
 
-
 for stock in portfolio['Stock']:
 
 
-    stock = str(stock).upper()
+    info = get_company_info(
+
+        stock
+
+    )
 
 
+    qtype = str(
 
-    ##########################################
-    # Crypto
-    ##########################################
+        info.get(
 
-    if "-USD" in stock:
+            'QuoteType',
 
-
-        asset_class.append(
-
-            "Crypto"
-
-        )
-
-
-
-    ##########################################
-    # Forex
-    ##########################################
-
-    elif "=X" in stock:
-
-
-        asset_class.append(
-
-            "Forex"
+            'EQUITY'
 
         )
 
+    ).upper()
 
 
-    ##########################################
-    # ETFs
-    ##########################################
 
-    elif "BEES" in stock:
+    if qtype == "ETF":
 
 
         asset_class.append(
@@ -971,26 +960,51 @@ for stock in portfolio['Stock']:
 
 
 
-    ##########################################
-    # Mutual Funds
-    ##########################################
+    elif qtype == "MUTUALFUND":
 
-    elif stock.startswith(
 
-            (
+        asset_class.append(
 
-                'PPFAS',
+            "Mutual Fund"
 
-                'SBI',
+        )
 
-                'HDFC',
 
-                'ICICI'
 
-            )
+    elif qtype == "CRYPTOCURRENCY":
 
-        ):
 
+        asset_class.append(
+
+            "Crypto"
+
+        )
+
+
+
+    elif qtype == "CURRENCY":
+
+
+        asset_class.append(
+
+            "Forex"
+
+        )
+
+
+
+    else:
+
+
+        asset_class.append(
+
+            "Equity"
+
+        )
+
+
+
+portfolio['Asset Class'] = asset_class
 
 
         asset_class.append(
