@@ -1726,6 +1726,46 @@ portfolio['Country'] = countries
 
 portfolio['Dividend Yield'] = dividends
 
+st.header(
+
+"Sector Allocation"
+
+)
+
+
+
+sector_fig = px.pie(
+
+portfolio,
+
+names='Sector',
+
+values='Value',
+
+hole=0.4
+
+)
+
+
+
+sector_fig.update_layout(
+
+template='plotly_dark',
+
+height=600
+
+)
+
+
+
+st.plotly_chart(
+
+sector_fig,
+
+use_container_width=True
+
+)
+
 
 ###################################################
 # AI Portfolio Doctor
