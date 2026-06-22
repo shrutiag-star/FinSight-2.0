@@ -477,15 +477,10 @@ uploaded = st.file_uploader(
     type=[
 
         'csv',
-
         'xlsx',
-
         'xls',
-
-        'pdf',
-
         'txt',
-
+        'pdf',
         'docx'
 
     ]
@@ -493,15 +488,22 @@ uploaded = st.file_uploader(
 )
 
 
-if uploaded:
+import os
+
+
+###################################################
+# User Upload
+###################################################
+
+if uploaded is not None:
 
 
     filename = uploaded.name.lower()
 
 
-    ##################################################
+    ##########################################
     # CSV
-    ##################################################
+    ##########################################
 
     if filename.endswith('.csv'):
 
@@ -513,11 +515,21 @@ if uploaded:
         )
 
 
-    ##################################################
-    # XLSX / XLS
-    ##################################################
+    ##########################################
+    # Excel
+    ##########################################
 
-    elif filename.endswith(('.xlsx','.xls')):
+    elif filename.endswith(
+
+            (
+
+                '.xlsx',
+
+                '.xls'
+
+            )
+
+        ):
 
 
         portfolio = pd.read_excel(
@@ -527,9 +539,9 @@ if uploaded:
         )
 
 
-    ##################################################
+    ##########################################
     # TXT
-    ##################################################
+    ##########################################
 
     elif filename.endswith('.txt'):
 
@@ -543,143 +555,220 @@ if uploaded:
         )
 
 
-    ##################################################
-    # DOCX
-    ##################################################
-
-    elif filename.endswith('.docx'):
-
-
-        st.warning(
-
-            "DOCX parser coming in next step"
-
-        )
-
-
-
-    ##################################################
+    ##########################################
     # PDF
-    ##################################################
+    ##########################################
 
     elif filename.endswith('.pdf'):
 
 
         st.warning(
 
-            "PDF parser coming in next step"
+            "PDF parser will be added later"
 
         )
 
 
+        portfolio = pd.DataFrame(
 
-    ##################################################
-    # Unsupported
-    ##################################################
+            columns=[
 
-    else:
+                'Stock',
 
+                'Quantity'
 
-        st.error(
-
-            "Unsupported file format"
+            ]
 
         )
 
 
+    ##########################################
+    # DOCX
+    ##########################################
 
-##################################################
+    elif filename.endswith('.docx'):
+
+
+        st.warning(
+
+            "DOCX parser will be added later"
+
+        )
+
+
+        portfolio = pd.DataFrame(
+
+            columns=[
+
+                'Stock',
+
+                'Quantity'
+
+            ]
+
+        )
+
+
+###################################################
+# Default Portfolio
+###################################################
+
+else:
+
+
+    path = os.path.join(
+
+        os.getcwd(),
+
+        'portfolio.csv'
+
+    )
+
+
+    portfolio = pd.read_csv(
+
+        path
+
+    )
+
+
+###################################################
+# Cleaning
+###################################################
+
+portfolio.columns = [
+
+
+    str(
+
+        x
+
+    ).strip()
+
+
+    for x in portfolio.columns
+
+
+]
+
+
+rename = {
+
+
+    'Company':'Stock',
+
+    'Shares':'Quantity',
+
+    'Units':'Quantity',
+
+    'Symbol':'Stock',
+
+    'Qty':'Quantity'
+
+
+}
+
+
+portfolio.rename(
+
+
+    columns=rename,
+
+
+    inplace=True
+
+
+)
+
+
+required = {
+
+
+    'Stock',
+
+    'Quantity'
+
+
+}
+
+
+if not required.issubset(
+
+
+        portfolio.columns
+
+
+):
+
+
+    st.error(
+
+
+        "Portfolio must contain Stock and Quantity columns"
+
+
+    )
+
+
+    st.stop()
+
+
+
+portfolio['Stock'] = portfolio['Stock'].astype(
+
+
+    str
+
+
+)
+
+
+
+portfolio['Quantity'] = pd.to_numeric(
+
+
+    portfolio['Quantity'],
+
+
+    errors='coerce'
+
+
+)
+
+
+
+portfolio.dropna(
+
+
+    inplace=True
+
+
+)
+
+
+###################################################
 # Preview
-##################################################
+###################################################
 
 st.subheader(
 
-"Portfolio Preview"
+
+    "Portfolio Preview"
+
 
 )
 
 
 st.dataframe(
 
-portfolio,
 
-use_container_width=True
+    portfolio,
+
+
+    use_container_width=True
+
 
 )
-
-
-    portfolio.columns = [
-
-        x.strip()
-
-        for x in portfolio.columns
-
-    ]
-
-
-    rename = {
-
-        'Company': 'Stock',
-
-        'Shares': 'Quantity',
-
-        'Units': 'Quantity'
-
-    }
-
-
-    portfolio.rename(
-
-        columns=rename,
-
-        inplace=True
-
-    )
-
-
-    required = {
-
-        'Stock',
-
-        'Quantity'
-
-    }
-
-
-    if not required.issubset(
-
-        portfolio.columns
-
-    ):
-
-
-        st.error(
-
-            "CSV must contain Stock and Quantity columns"
-
-        )
-
-
-        st.stop()
-
-
-    portfolio['Stock'] = portfolio['Stock'].astype(
-
-        str
-
-    )
-
-
-    portfolio['Quantity'] = pd.to_numeric(
-
-        portfolio['Quantity'],
-
-        errors='coerce'
-
-    )
-
-
-    portfolio.dropna(
 
         inplace=True
 
