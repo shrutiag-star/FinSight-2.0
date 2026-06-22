@@ -327,77 +327,72 @@ years = st.sidebar.slider(
 
 st.header(
 
-    "AI Suggested Portfolio"
+"AI Suggested Rebalancing"
 
 )
 
+
+equity_weight = (
+
+portfolio[
+
+portfolio['Asset Class']=="Equity"
+
+]['Value'].sum()
+
+/
+
+portfolio['Value'].sum()
+
+)*100
+
+
 if risk=="Low":
 
+    target = 40
 
-    suggested={
-
-
-        'HDFCBANK':40,
-
-        'TCS':30,
-
-        'ITC':20,
-
-        'GOLDBEES':10
-
-
-    }
 
 elif risk=="Medium":
 
-
-    suggested={
-
-
-        'RELIANCE':30,
-
-        'TCS':30,
-
-        'BAJFINANCE':20,
-
-        'NIFTYBEES':20
+    target = 65
 
 
-    }
+else:
 
+    target = 85
+
+
+
+difference = equity_weight-target
+
+
+
+if difference>10:
+
+
+    st.warning(
+
+f"Reduce Equity Exposure by {round(difference,1)}%"
+
+)
+
+
+elif difference<-10:
+
+
+    st.info(
+
+f"Increase Equity Exposure by {round(abs(difference),1)}%"
+
+)
 
 
 else:
 
 
-    suggested={
+    st.success(
 
-
-        'RELIANCE':25,
-
-        'DIXON':25,
-
-        'TATAMOTORS':25,
-
-        'ZOMATO':25
-
-
-    }
-
-
-
-
-invest=pd.DataFrame(
-
-
-{
-
-'Stock':suggested.keys(),
-
-'Allocation %':suggested.values()
-
-}
-
+"Portfolio Allocation is Optimal"
 
 )
 
@@ -925,181 +920,39 @@ analysis_time = round(
 
 asset_class = []
 
-
 for stock in portfolio['Stock']:
 
+    stock = str(stock).upper().strip()
 
-    stock = str(stock).upper()
-
-
-    ################################################
     # Crypto
-    ################################################
-
     if "-USD" in stock:
 
+        asset_class.append("Crypto")
 
-        asset_class.append(
-
-            "Crypto"
-
-        )
-
-
-    ################################################
     # Forex
-    ################################################
-
     elif "=X" in stock:
 
+        asset_class.append("Forex")
 
-        asset_class.append(
-
-            "Forex"
-
-        )
-
-
-    ################################################
     # ETF
-    ################################################
+    elif "BEES" in stock or "ETF" in stock:
 
-    elif "BEES" in stock:
+        asset_class.append("ETF")
 
+    # Mutual Fund
+    elif "PPFAS" in stock:
 
-        asset_class.append(
+        asset_class.append("Mutual Fund")
 
-            "ETF"
-
-        )
-
-
-    ################################################
-    # Mutual Funds
-    ################################################
-
-    elif stock in [
-
-        'PPFAS',
-
-        'PPFASFLEXI',
-
-        'SBI_SMALLCAP',
-
-        'SBI_SMALL_CAP',
-
-        'HDFC_SMALLCAP',
-
-        'ICICI_VALUE'
-
-    ]:
-
-
-
-        asset_class.append(
-
-            "Mutual Fund"
-
-        )
-
-
-    ################################################
     # Bond
-    ################################################
-
     elif "BOND" in stock:
 
+        asset_class.append("Bond")
 
-
-        asset_class.append(
-
-            "Bond"
-
-        )
-
-
-    ################################################
-    # Index
-    ################################################
-
-    elif stock in [
-
-        '^NSEI',
-
-        '^BSESN',
-
-        '^NDX',
-
-        '^GSPC'
-
-    ]:
-
-
-
-        asset_class.append(
-
-            "Index"
-
-        )
-
-
-    ################################################
-    # Default
-    ################################################
-
+    # Everything else
     else:
 
-
-
-        asset_class.append(
-
-            "Equity"
-
-        )
-
-
-
-portfolio['Asset Class'] = asset_class
-
-        asset_class.append(
-
-            "Mutual Fund"
-
-        )
-
-
-
-    ##########################################
-    # Bonds
-    ##########################################
-
-    elif "BOND" in stock:
-
-
-
-        asset_class.append(
-
-            "Bond"
-
-        )
-
-
-
-    ##########################################
-    # Equity
-    ##########################################
-
-    else:
-
-
-
-        asset_class.append(
-
-            "Equity"
-
-        )
-
-
+        asset_class.append("Equity")
 
 
 portfolio['Asset Class'] = asset_class
