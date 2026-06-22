@@ -320,145 +320,18 @@ years = st.sidebar.slider(
 )
 
 
-st.header(
+# ###################################################
+# SIP Planner
+# ###################################################
 
-"SIP Planner"
+# (Temporarily disabled for FinSight 4.0)
 
-)
 
+# ###################################################
+# Retirement Planner
+# ###################################################
 
-sip=st.number_input(
-
-"Monthly SIP",
-
-1000,
-
-100000,
-
-10000
-
-)
-
-
-
-r=0.12/12
-
-n=years*12
-
-
-future=sip*((1+r)**n-1)/r
-
-
-future=round(
-
-future,
-
-0
-
-)
-
-
-
-st.metric(
-
-"Expected Corpus",
-
-f"₹{round(future,0)}"
-
-)
-
-
-
-st.header(
-
-"Retirement Planner"
-
-)
-
-
-
-age=st.slider(
-
-"Current Age",
-
-20,
-
-60,
-
-25
-
-)
-
-
-
-retire=st.slider(
-
-"Retirement Age",
-
-55,
-
-70,
-
-60
-
-)
-
-
-
-expense=st.number_input(
-
-"Monthly Expense",
-
-10000,
-
-500000,
-
-50000
-
-)
-
-
-
-inflation=0.06
-
-
-yrs=retire-age
-
-
-
-corpus=(
-
-
-expense*12*25
-
-
-)*(
-
-
-1+inflation
-
-
-)**yrs
-
-
-corpus=round(
-
-corpus,
-
-0
-
-)
-
-
-
-st.metric(
-
-"Required Corpus",
-
-f"₹{round(corpus/10000000,2)} Cr"
-
-)
-
+# (Temporarily disabled for FinSight 4.0)
 
 ###################################################
 # Dashboard Timestamp
