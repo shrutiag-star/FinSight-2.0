@@ -472,9 +472,23 @@ f"🕒 Dashboard Updated : {current_time}"
 
 uploaded = st.file_uploader(
 
-    "Upload Portfolio",
+    "📂 Upload Portfolio Statement",
 
-    type=['csv']
+    type=[
+
+        'csv',
+
+        'xlsx',
+
+        'xls',
+
+        'pdf',
+
+        'txt',
+
+        'docx'
+
+    ]
 
 )
 
