@@ -321,6 +321,18 @@ risk = st.sidebar.selectbox(
 
 )
 
+years = st.sidebar.slider(
+
+    "Investment Horizon",
+
+    1,
+
+    30,
+
+    5
+
+)
+
 ###################################################
 # SIP Planner
 ###################################################
@@ -466,17 +478,6 @@ st.sidebar.metric(
 "Required Corpus",
 
 f"₹{round(corpus/10000000,2)} Cr"
-
-)
-years = st.sidebar.slider(
-
-    "Investment Horizon",
-
-    1,
-
-    30,
-
-    5
 
 )
 
