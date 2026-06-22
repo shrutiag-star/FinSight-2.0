@@ -10,6 +10,124 @@ import pandas as pd
 import plotly.express as px
 import numpy as np
 import yfinance as yf
+##################################################
+# FinSight Risk Meter Function
+##################################################
+
+def investor_risk_meter(portfolio,
+                        investor_age,
+                        risk_appetite,
+                        years_to_retire):
+
+    total_value = portfolio['Value'].sum()
+
+    confidence = portfolio['Confidence'].mean()
+
+    volatility = portfolio['Confidence'].std()
+
+    largest_holding = (
+        portfolio['Value'].max()
+        /
+        total_value
+    )*100
+
+
+    equity_weight = (
+
+        portfolio[
+        portfolio['Asset Class']=="Equity"
+        ]['Value'].sum()
+
+        /
+        total_value
+
+    )*100
+
+
+    diversification = len(
+
+        portfolio['Stock'].unique()
+
+    )
+
+
+    concentration_risk = max(
+
+        largest_holding-20,
+
+        0
+
+    )
+
+
+    diversification_risk = max(
+
+        15-diversification,
+
+        0
+
+    )
+
+
+    volatility_risk = volatility
+
+
+    equity_risk = equity_weight*0.20
+
+
+    score = (
+
+        concentration_risk
+
+        +
+
+        diversification_risk
+
+        +
+
+        volatility_risk
+
+        +
+
+        equity_risk
+
+    )
+
+
+    if investor_age < 35:
+
+        score -= 8
+
+
+    elif investor_age > 55:
+
+        score += 10
+
+
+
+    if risk_appetite=="Aggressive":
+
+        score -= 7
+
+
+
+    elif risk_appetite=="Conservative":
+
+        score += 7
+
+
+
+    if years_to_retire < 10:
+
+        score += 10
+
+
+
+    score=max(0,min(score,100))
+
+
+    return round(score,2)
+
 ###################################################
 # Dynamic Company Information
 ###################################################
@@ -1083,11 +1201,7 @@ st.header(
 st.markdown("---")
 
 
-st.header(
-
-"🎯 FinSight Risk Meter"
-
-)
+st.subheader("🎯 FinSight Risk Meter")
 
 ##################################################
 # Inputs from Investor Portfolio
@@ -1103,12 +1217,12 @@ portfolio['Confidence'].mean(),
 
 
 volatility = round(
-
-portfolio['Confidence'].std(),
-
-2
-
+    portfolio['Confidence'].std(),
+    2
 )
+
+if np.isnan(volatility):
+    volatility = 0
 
 
 debt_equity = 0.50
@@ -1177,19 +1291,17 @@ portfolio['Recommendation']=="SELL"
 
 
 
-market_sentiment = (
+if len(portfolio) > 0:
 
-buy_count*100
+    market_sentiment = (
+        buy_count*100
+        + hold_count*60
+        + sell_count*30
+    ) / len(portfolio)
 
-+
+else:
 
-hold_count*60
-
-+
-
-sell_count*30
-
-)/len(portfolio)
+    market_sentiment = 50
 
 
 
@@ -1221,11 +1333,8 @@ a,b,c,d = st.columns(
 
 
 a.metric(
-
-"Risk Score",
-
-risk_score
-
+    "Risk Score",
+    f"{risk_score}/100"
 )
 
 
@@ -1313,6 +1422,83 @@ st.header(
 
 )
 
+expected_return = (
+
+portfolio['Expected CAGR'].mean()
+
+)
+
+
+portfolio_value = (
+
+portfolio['Value'].sum()
+
+)
+
+
+years=10
+
+
+
+future_value = (
+
+portfolio_value
+
+*
+
+(
+
+1+
+
+expected_return/100
+
+)
+
+**
+
+years
+
+)
+
+
+
+c1,c2,c3=st.columns(3)
+
+
+
+c1.metric(
+
+"Expected CAGR",
+
+f"{expected_return:.1f}%"
+
+)
+
+
+
+c2.metric(
+
+"10Y Portfolio",
+
+f"₹{future_value:,.0f}"
+
+)
+
+
+
+c3.metric(
+
+"Diversification",
+
+len(
+
+portfolio['Stock'].unique()
+
+)
+
+)
+
+
 ###################################################
 # Institutional Layer
 ###################################################
@@ -1322,6 +1508,72 @@ st.header(
 "🏛 Institutional Layer"
 
 )
+
+buying=[]
+
+
+
+selling=[]
+
+
+
+for i,row in portfolio.iterrows():
+
+
+
+    if row['Confidence']>80:
+
+
+
+        buying.append(
+
+            row['Stock']
+
+        )
+
+
+
+    else:
+
+
+
+        selling.append(
+
+            row['Stock']
+
+        )
+
+
+
+
+st.write(
+
+"Accumulation"
+
+)
+
+
+st.success(
+
+buying
+
+)
+
+
+
+st.write(
+
+"Distribution"
+
+)
+
+
+st.error(
+
+selling
+
+)
+
 
 ###################################################
 # Technical Analysis
@@ -1333,6 +1585,49 @@ st.header(
 
 )
 
+
+
+ticker = st.selectbox(
+
+"Stock",
+
+portfolio['Stock']
+
+)
+
+
+
+
+hist = yf.download(
+
+ticker+".NS",
+
+period="6mo"
+
+)
+
+
+
+
+fig = px.line(
+
+hist,
+
+y='Close'
+
+)
+
+
+
+st.plotly_chart(
+
+fig,
+
+use_container_width=True
+
+)
+
+
 ###################################################
 # Alternative Assets
 ###################################################
@@ -1342,6 +1637,71 @@ st.header(
 "🌍 Alternative Assets"
 
 )
+
+gold=10
+
+
+international=15
+
+
+cash=5
+
+
+
+
+pie = pd.DataFrame(
+
+{
+
+"Asset":[
+
+"Gold",
+
+"International",
+
+"Cash"
+
+],
+
+
+"Allocation":[
+
+gold,
+
+international,
+
+cash
+
+]
+
+}
+
+)
+
+
+
+
+fig = px.pie(
+
+pie,
+
+names='Asset',
+
+values='Allocation'
+
+)
+
+
+
+
+st.plotly_chart(
+
+fig,
+
+use_container_width=True
+
+)
+
 
 ###################################################
 # Reports
