@@ -1066,7 +1066,141 @@ st.dataframe(
 
 
 
+###################################################
+# Risk Intelligence
+###################################################
 
+st.header(
+
+"🛡 Risk Intelligence"
+
+)
+
+##################################################
+# FinSight Risk Meter
+##################################################
+
+st.markdown("---")
+
+
+st.header(
+
+"🎯 FinSight Risk Meter"
+
+)
+
+confidence = round(
+
+portfolio['Confidence'].mean(),
+
+2
+
+)
+
+
+volatility = round(
+
+portfolio['Confidence'].std(),
+
+2
+
+)
+
+
+if 'DebtEquity' in portfolio.columns:
+
+
+    debt_equity = round(
+
+        portfolio['DebtEquity'].mean(),
+
+        2
+
+    )
+
+
+else:
+
+
+    debt_equity = 0.50
+
+
+
+
+equity_weight = (
+
+portfolio[
+
+portfolio['Asset Class']=="Equity"
+
+]['Value'].sum()
+
+/
+
+portfolio['Value'].sum()
+
+)*100
+
+
+
+
+stress_loss = round(
+
+equity_weight*0.35,
+
+2
+
+)
+
+###################################################
+# Portfolio Intelligence
+###################################################
+
+st.header(
+
+"🧩 Portfolio Intelligence"
+
+)
+
+###################################################
+# Institutional Layer
+###################################################
+
+st.header(
+
+"🏛 Institutional Layer"
+
+)
+
+###################################################
+# Technical Analysis
+###################################################
+
+st.header(
+
+"📉 Technical Analysis"
+
+)
+
+###################################################
+# Alternative Assets
+###################################################
+
+st.header(
+
+"🌍 Alternative Assets"
+
+)
+
+###################################################
+# Reports
+###################################################
+
+st.header(
+
+"📄 Reports"
+
+)
 ###################################################
 # Correlation Matrix
 ###################################################
