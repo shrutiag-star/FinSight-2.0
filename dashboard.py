@@ -242,33 +242,24 @@ unsafe_allow_html=True
 # Top Bar
 ###################################################
 
-left,right = st.columns(
-
-[3,1]
-
-)
-
+left,right = st.columns([3,1])
 
 with left:
 
-
     st.caption(
 
-f"Last Updated : {datetime.now().strftime('%d-%b-%Y %H:%M:%S')}"
+        f"Last Updated : {datetime.now().strftime('%d-%b-%Y %H:%M:%S')}"
 
-)
-
+    )
 
 
 with right:
 
-
     st.caption(
 
-f"Running Time : {datetime.now().strftime('%H:%M:%S')}"
+        "Status : 🟢 Live"
 
-)
-
+    )
 
 
 ###################################################
