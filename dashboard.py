@@ -321,7 +321,151 @@ risk = st.sidebar.selectbox(
 
 )
 
+###################################################
+# SIP Planner
+###################################################
 
+st.sidebar.markdown(
+
+"---"
+
+)
+
+st.sidebar.subheader(
+
+"🎯 SIP Planner"
+
+)
+
+
+sip = st.sidebar.number_input(
+
+"Monthly SIP",
+
+1000,
+
+100000,
+
+10000
+
+)
+
+
+r = 0.12/12
+
+
+n = years*12
+
+
+future = sip*((1+r)**n-1)/r
+
+
+future = round(
+
+future,
+
+0
+
+)
+
+
+st.sidebar.metric(
+
+"Expected Corpus",
+
+f"₹{future:,.0f}"
+
+)
+
+###################################################
+# Retirement Planner
+###################################################
+
+st.sidebar.markdown(
+
+"---"
+
+)
+
+st.sidebar.subheader(
+
+"🏖 Retirement Planner"
+
+)
+
+
+age = st.sidebar.slider(
+
+"Current Age",
+
+20,
+
+60,
+
+25
+
+)
+
+
+retire = st.sidebar.slider(
+
+"Retirement Age",
+
+55,
+
+70,
+
+60
+
+)
+
+
+expense = st.sidebar.number_input(
+
+"Monthly Expense",
+
+10000,
+
+500000,
+
+50000
+
+)
+
+
+inflation = 0.06
+
+
+yrs = retire-age
+
+
+corpus = (
+
+expense*12*25
+
+)*(
+
+1+inflation
+
+)**yrs
+
+
+corpus = round(
+
+corpus,
+
+0
+
+)
+
+
+st.sidebar.metric(
+
+"Required Corpus",
+
+f"₹{round(corpus/10000000,2)} Cr"
+
+)
 years = st.sidebar.slider(
 
     "Investment Horizon",
