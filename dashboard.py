@@ -1025,13 +1025,13 @@ c5.metric(
 
 )
 
-c6.metric(
+# c6.metric(
 
-"FinSight Score",
+# "FinSight Score",
 
-score
+# score
 
-)
+# )
 
 
 
